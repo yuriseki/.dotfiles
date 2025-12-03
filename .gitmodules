@@ -1,6 +1,6 @@
-[submodule "nvchad/.config/nvchad"]
-	path = nvchad/.config/nvchad
-	url = github.com:yuriseki/nvchad.git
 [submodule "tmux/.config/tmux"]
 	path = tmux/.config/tmux
 	url = git@github.com:yuriseki/tmux.git
+[submodule "nvim/.config/nvim"]
+	path = nvim/.config/nvim
+	url = git@github.com:yuriseki/nvim.yuri.git
