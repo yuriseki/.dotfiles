@@ -1,0 +1,35 @@
+-- local configs = require("lspconfig.configs")
+-- local bashls = require("lspconfig.configs.bashls")
+
+local servers = {
+  bashls = {},
+}
+--
+-- configs.setup
+local ensure_installed = vim.tbl_keys(servers or {})
+
+vim.list_extend(ensure_installed, {
+  "shellcheck", -- bash linter
+  "bash-debug-adapter", -- bash DAP
+  "shfmt", -- bash formatter
+  "php-debug-adapter",
+  "intelephense", -- PHP lSP
+  -- "phpactor",
+  "yaml-language-server",
+})
+require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+require("mason-lspconfig").setup({
+  ensure_installed = {}, -- explicitly set to an empty table (populates installs via mason-tool-installer)
+  automatic_installation = true,
+  handlers = {
+    function(server_name)
+      local server = servers[server_name] or {}
+      -- This handles overriding only values explicitly passed
+      -- by the server configuration above. Useful when disabling
+      -- certain features of an LSP (for example, turning off formatting for ts_ls)
+      server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+      require("lspconfig")[server_name].setup(server)
+    end,
+  },
+})
