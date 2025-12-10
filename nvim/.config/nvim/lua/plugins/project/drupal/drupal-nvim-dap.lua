@@ -19,7 +19,7 @@ return {
       type = "executable",
       command = "node",
       args = {
-        vim.loop.os_homedir() .. "/.local/share/nvim.yuri2/mason/packages/php-debug-adapter/extension/out/phpDebug.js",
+        vim.loop.os_homedir() .. "/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js",
       },
     }
 

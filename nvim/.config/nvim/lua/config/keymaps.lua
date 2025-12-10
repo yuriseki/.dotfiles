@@ -6,8 +6,10 @@ local opts = { noremap = true, silent = true }
 -- Undo/Redo
 vim.keymap.set("i", "<C-z>", "<Esc>ua", { silent = true, desc = "Undo" })
 vim.keymap.set("i", "<C-S-z>", "<Esc><C-r>a", { silent = true, desc = "Redo" })
-vim.keymap.set("n", "<C-z>", "<Esc>ua", { silent = true, desc = "Undo" })
-vim.keymap.set("n", "<C-S-z>", "<Esc><C-r>a", { silent = true, desc = "Redo" })
+vim.keymap.set("v", "<C-z>", "<Esc>u", { silent = true, desc = "Undo" })
+vim.keymap.set("v", "<C-S-z>", "<Esc><C-r><Esc>gv", { silent = true, desc = "Redo" })
+vim.keymap.set("n", "<C-z>", "u", { silent = true, desc = "Undo" })
+vim.keymap.set("n", "<C-S-z>", "<C-r>", { silent = true, desc = "Redo" })
 
 -- Undo breakpoints on space and punctuation
 vim.keymap.set("i", " ", " <C-g>u")
@@ -56,8 +58,8 @@ vim.keymap.set("v", "<S-Left>", "h", { silent = true })
 vim.keymap.set("v", "<S-Right>", "l", { silent = true })
 
 -- -- Delete word (IntelliJ-like)
-vim.keymap.set("i", "<C-BS>", "<Esc>cb", { desc = "Delete word" })
-vim.keymap.set("i", "<C-Del>", "<Esc>dea", { desc = "Delete word" }) -- Ctrl+Delete
+vim.keymap.set("i", "<C-BS>", "<Esc>cb<Del>", { desc = "Delete word" })
+vim.keymap.set("i", "<C-Del>", "<Esc>ldea", { desc = "Delete word" }) -- Ctrl+Delete
 
 -- Copy/paste inside INSERT mode
 -- vim.keymap.set("v", "y", '"+y<Esc>i', { noremap = true, silent = true, desc = "Yank" })
@@ -93,6 +95,10 @@ vim.keymap.set("n", "-", "<cmd>Oil --float<CR>", { desc = "Open current director
 vim.keymap.set("n", "<C-b>", function()
   Snacks.bufdelete()
 end, { noremap = true, desc = "Delete Buffer" })
+
+vim.keymap.set({"i","n","v"}, "<C-M-]>", ":bnext<CR>", {desc = "Next Buffer"})
+vim.keymap.set({"i","n","v"}, "<C-M-[>", ":bprevious<CR>", {desc = "Previous Buffer"})
+vim.keymap.set({"i","n","v"}, "<C-M-p>", ":b#<CR>", {desc = "Previous visualised Buffer"})
 
 -- ----------------------------------------------------------------------------
 -- Coding keys.

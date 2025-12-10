@@ -1,5 +1,4 @@
-# ~/.config/fish/secrets.fish
-
+source ~/.config/fish/secrets.fish
 
 set -U fish_greeting "" # This line removes the default Fish greeting
 echo "May the Force be with you."
