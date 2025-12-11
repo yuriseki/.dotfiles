@@ -15,6 +15,7 @@ vim.list_extend(ensure_installed, {
   "php-debug-adapter",
   "intelephense", -- PHP lSP
   -- "phpactor",
+  "php-cs-fixer",
   "yaml-language-server",
 })
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })

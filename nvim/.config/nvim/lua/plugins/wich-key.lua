@@ -6,6 +6,7 @@ return {
     wk.add({
       { "\\", group = "Custom Backslask Mappings" },
 
+      { "\\c", group = "[C]ode" },
       { "\\d", group = "[D]iff" },
       { "\\f", group = "[F]uzzy find - Fzf" },
       { "\\g", group = "[G]it" },

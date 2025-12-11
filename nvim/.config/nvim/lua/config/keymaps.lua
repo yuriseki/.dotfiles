@@ -21,12 +21,6 @@ vim.keymap.set("i", "?", "?<C-g>u")
 vim.keymap.set("i", ">", "><C-g>u")
 vim.keymap.set("i", "<", "<<C-g>u")
 
--- Undo/Redo
-vim.keymap.set("i", "<C-z>", "<Esc>ua", { silent = true, desc = "Undo" })
-vim.keymap.set("i", "<C-S-z>", "<Esc><C-r>a", { silent = true, desc = "Redo" })
-vim.keymap.set("n", "<C-z>", "<Esc>ua", { silent = true, desc = "Undo" })
-vim.keymap.set("n", "<C-S-z>", "<Esc><C-r>a", { silent = true, desc = "Redo" })
-
 -- Selection while staying in insert mode
 vim.keymap.set("v", "<S-Up>", "<Up>")
 vim.keymap.set("v", "<S-Down>", "<Down>")
@@ -113,5 +107,14 @@ vim.api.nvim_create_user_command("DrupalFormatRange", function()
 end, { range = true })
 
 vim.keymap.set("v", "\\cf", ":DrupalFormatRange<CR>")
+
+vim.keymap.set("n", "\\cm", function()
+  vim.cmd([[
+    %join!
+    %s/\s\+/ /g
+    %s/^\s\+//
+    %s/\s\+$//
+  ]])
+end, { desc = "[M]inify text" })
 
 --This is check how

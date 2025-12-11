@@ -12,7 +12,6 @@ return {
   optional = true,
   config = function()
     local dap = require("dap")
-    -- local dapui = require("dapui")
 
     -- The following assumes you've installed the php-debug-adapter using mason.nvim
     dap.adapters.php = {
