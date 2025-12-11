@@ -39,7 +39,7 @@ return {
         concealcursor = "nvic",
       },
       -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
-      delete_to_trash = false,
+      delete_to_trash = true,
       -- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
       skip_confirm_for_simple_edits = false,
       -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
@@ -91,7 +91,7 @@ return {
       use_default_keymaps = true,
       view_options = {
         -- Show files and directories that start with "."
-        show_hidden = false,
+        show_hidden = true,
         -- This function defines what is considered a "hidden" file
         is_hidden_file = function(name, bufnr)
           local m = name:match("^%.")

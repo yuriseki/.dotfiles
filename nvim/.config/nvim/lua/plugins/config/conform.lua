@@ -2,8 +2,14 @@ local util = require("conform.util")
 local config = require("conform")
 
 config.setup({
+  -- Always fall back to LSP if no formatter is configured
+  fallback_lsp = true,
+
   formatters_by_ft = {
-    php = { "php-cs-fixer" },
+    php = { "php-cs-fixer", lsp_format = "first" },
+    python = { "isort", "black", lsp_format = "first" },
+    javascript = { "prettierd", "prettier", stop_after_first = true },
+    typescript = { "prettierd", "prettier", stop_after_first = true },
   },
 
   formatters = {

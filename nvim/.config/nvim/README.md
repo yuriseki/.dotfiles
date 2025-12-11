@@ -6,11 +6,11 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
 ## TODO
 
 - [ ] Configure Shift + Tab to go to the left.
-- [X] Configure autocompletion with Tab
-- [X] Configure Enter to select autocompletion, together with Tab
+- [x] Configure autocompletion with Tab
+- [x] Configure Enter to select autocompletion, together with Tab
 - [ ] Add the ability grep search in a single directory.
 - [ ] Enable spell checking suggestion.
-- [X] Add an option to format code only in selected content / git updated content.
+- [x] Add an option to format code only in selected content / git updated content.
 
 ## Debug working for
 
@@ -34,7 +34,8 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
 
 `:vertical Gdiffsplit main`
 
-- Use `do` (Diff Obtain) to obtain the diff from the other buffer into the current buffer.
+- Use `do` (Diff Obtain) to obtain the diff from the other buffer into the
+  current buffer.
 - Use `dp` (Diff Put) to put the change from the current buffer into the other buffer.
 
 ### View the current file history

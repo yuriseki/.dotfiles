@@ -1,8 +1,7 @@
--- local configs = require("lspconfig.configs")
--- local bashls = require("lspconfig.configs.bashls")
-
 local servers = {
   bashls = {},
+  intelephense = {},
+  yamlls = {},
 }
 --
 -- configs.setup
@@ -13,12 +12,15 @@ vim.list_extend(ensure_installed, {
   "bash-debug-adapter", -- bash DAP
   "shfmt", -- bash formatter
   "php-debug-adapter",
-  "intelephense", -- PHP lSP
   -- "phpactor",
   "php-cs-fixer",
-  "yaml-language-server",
+  "prettier",
+  "prettierd",
 })
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+local original_capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require('blink.cmp').get_lsp_capabilities(original_capabilities)
 
 require("mason-lspconfig").setup({
   ensure_installed = {}, -- explicitly set to an empty table (populates installs via mason-tool-installer)

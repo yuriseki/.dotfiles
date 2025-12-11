@@ -16,3 +16,13 @@
 --   end,
 -- })
 --
+
+
+-- Associate drupal filetypes as PHP.
+vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+    pattern = {"*.module", "*.theme", "*.install", "*.inc"},
+    callback = function()
+        vim.opt.filetype = "php"
+    end,
+})
+
