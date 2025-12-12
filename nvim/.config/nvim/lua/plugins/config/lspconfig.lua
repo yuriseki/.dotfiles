@@ -11,6 +11,7 @@ vim.list_extend(ensure_installed, {
   "shellcheck", -- bash linter
   "bash-debug-adapter", -- bash DAP
   "shfmt", -- bash formatter
+  "local-lua-debugger-vscode", -- Lua DAP
   "php-debug-adapter",
   -- "phpactor",
   "php-cs-fixer",
