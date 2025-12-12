@@ -40,9 +40,13 @@ end
 function vim --wraps='nvim'
     nvim $argv
 end
-function terminusk
-    terminus auth:login --machine-token=af9R1juBzjiZA4euOL2GdKp91Ob1y80NgRStoCjBfKgA6
+function fd
+    fdfind
 end
+function bat
+    batcat
+end
+
 
 # Set the default text editor
 set -gx EDITOR nvim
