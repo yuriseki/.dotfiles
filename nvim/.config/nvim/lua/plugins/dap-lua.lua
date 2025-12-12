@@ -41,8 +41,7 @@ return {
         type = "lua",
         request = "launch",
         name = "Neovim Plugin Development",
-        -- cwd = "${workspaceFolder}",
-        cwd = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", ""),
+        cwd = "${workspaceFolder}",
         -- This tells the debugger to run a new instance of Neovim
         -- that is configured to load the code from your current project directory.
         program = {
