@@ -38,7 +38,7 @@ return {
     completion = {
       ghost_text = {
         show_with_menu = true,
-        show_without_menu = true,
+        show_without_menu = false,
       },
       menu = {
         auto_show_delay_ms = 500,
@@ -78,33 +78,4 @@ return {
     fuzzy = { implementation = "prefer_rust_with_warning" },
   },
   opts_extend = { "sources.default" },
-
-  -- config = function(_, opts)
-  --   -- Remove duplicates
-  --   local original_transform_items = require("blink.cmp.config").transform_items
-  --
-  --   -- Override the transform_items function which is called per source
-  --   require("blink.cmp.config").transform_items = function(ctx, items)
-  --     -- Use the context to store seen items for the current completion session
-  --     if not ctx.seen then
-  --       ctx.seen = {}
-  --     end
-  --
-  --     local function filter(item)
-  --       -- Use item.label to check for duplicates
-  --       if item.label and ctx.seen[item.label] then
-  --         return false
-  --       end
-  --       ctx.seen[item.label] = true
-  --       return true
-  --     end
-  --
-  --     -- If you still want to use the original transform_items logic, apply it first
-  --     if original_transform_items then
-  --       items = original_transform_items(ctx, items)
-  --     end
-  --
-  --     return vim.tbl_filter(filter, items)
-  --   end
-  -- end,
 }
