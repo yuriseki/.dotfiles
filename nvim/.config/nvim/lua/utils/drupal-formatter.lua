@@ -1,7 +1,7 @@
 local M = {}
 
 -- Path to phpcbf
-local phpcbf = "/home/yuri/.config/composer/vendor/bin/phpcbf"
+local phpcbf = "/home/yuri/.composer/vendor/bin/phpcbf"
 
 -- Detect root for better standard resolution
 local function get_root()
@@ -62,9 +62,23 @@ function M.drupal_file_format()
     end,
 
     on_exit = function()
-      local fixed = vim.fn.readfile(tmp)
-      if #fixed > 0 then
-        vim.api.nvim_buf_set_lines(0, 0, -1, false, fixed)
+      -- Read the entire file content as a single string to preserve trailing newlines
+      local f = io.open(tmp, "r")
+      if not f then
+        print("Error: could not open temporary file after formatting.")
+        vim.fn.delete(tmp)
+        return
+      end
+      local content = f:read("*a")
+      f:close()
+
+      -- phpcbf may not modify the file if no changes are needed.
+      -- We check for content to avoid clearing the buffer unnecessarily.
+      if content and #content > 0 then
+        -- Split the string content into lines.
+        -- vim.split correctly handles a trailing newline by producing an empty string at the end of the table.
+        local fixed_lines = vim.split(content, "\n")
+        vim.api.nvim_buf_set_lines(0, 0, -1, false, fixed_lines)
         print("Drupal format applied ✓")
       else
         print("No output from formatter")
