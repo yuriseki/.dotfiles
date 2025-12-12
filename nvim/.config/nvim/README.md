@@ -28,6 +28,14 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
   - Press F4 to define a breaking point
   - Press F5 to attach the debug into the server.
 
+- Lua Plugins for Neovim
+  - Open the Neovim (A) to debug the code
+  - Open another Neovim instance (B)
+  - In (B), execute the command :`lua require"osv".launch({port=8086})`
+  - In (A), press F4 to set a break point in the code you want to debug
+  - In (A), pres F5 to attach the debug, and select `Attach to running Neovim instance`
+  - In (B), execute the action that will trigger the code with the break point
+
 ## Performing Diff operations
 
 ### Perform a diff between the current file and another branch
