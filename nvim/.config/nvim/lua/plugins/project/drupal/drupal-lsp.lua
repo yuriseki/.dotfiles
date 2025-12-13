@@ -1,7 +1,3 @@
-if not require("utils.project").isDrupalProject() then
-  return {}
-end
-
 return {
   "jdrupal-dev/drupal_ls",
   event = { "BufReadPre", "BufNewFile" },
