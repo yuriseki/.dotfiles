@@ -52,8 +52,8 @@ vim.keymap.set("v", "<S-Left>", "h", { silent = true })
 vim.keymap.set("v", "<S-Right>", "l", { silent = true })
 
 -- -- Delete word (IntelliJ-like)
-vim.keymap.set("i", "<C-BS>", "<Esc>cb<Del>", { desc = "Delete word" })
-vim.keymap.set("i", "<C-Del>", "<Esc>ldea", { desc = "Delete word" }) -- Ctrl+Delete
+vim.keymap.set("i", "<M-BS>", "<Esc>cb<Del>", { desc = "Delete word" })
+vim.keymap.set("i", "<M-Del>", "<Esc>dea", { desc = "Delete word" }) -- Ctrl+Delete
 
 -- Copy/paste inside INSERT mode
 -- vim.keymap.set("v", "y", '"+y<Esc>i', { noremap = true, silent = true, desc = "Yank" })
