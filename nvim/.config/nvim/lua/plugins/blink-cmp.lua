@@ -24,7 +24,7 @@ return {
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = {
       preset = "super-tab",
-      ["<CR>"] = { "accept", "fallback" },
+      -- ["<CR>"] = { "accept", "fallback" },
       ["<M-q>"] = { "hide" },
     },
 
