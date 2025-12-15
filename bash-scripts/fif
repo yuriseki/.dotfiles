@@ -2,9 +2,21 @@
 
 # fif - Find In Files
 # Interactive search inside files using fzf
-# Usage: fif [search_term]
+# Usage: fif [options] [search_term] [directory]
+# Options:
+#   -f PATTERN  File name pattern (e.g., "*.py")
 
 set -euo pipefail
+
+# Parse options
+FILE_PATTERN=""
+while getopts "f:" opt; do
+  case $opt in
+    f) FILE_PATTERN="$OPTARG" ;;
+    *) echo "Usage: fif [-f PATTERN] [search_term] [directory]"; exit 1 ;;
+  esac
+done
+shift $((OPTIND-1))
 
 # Check if fzf is installed
 if ! command -v fzf &> /dev/null; then
@@ -57,6 +69,7 @@ if [ "$INTERACTIVE" = true ]; then
 
     # Interactive search with live filtering
     cd "$SEARCH_DIR" && find . -type f \
+        ${FILE_PATTERN:+-name "$FILE_PATTERN"} \
         -not -path '*/.git/*' \
         -not -path '*/node_modules/*' \
         -not -path '*/.next/*' \
@@ -66,6 +79,7 @@ if [ "$INTERACTIVE" = true ]; then
         -not -path '*/.DS_Store' \
         -not -path '*/.vscode/*' \
         -not -path '*/.idea/*' \
+        -not -path '*/vendor/*' \
         -print0 2>/dev/null | \
         xargs -0 $SEARCH_CMD $SEARCH_ARGS . 2>/dev/null | \
         fzf --delimiter ':' \
@@ -79,6 +93,7 @@ else
 
     # Direct search
     cd "$SEARCH_DIR" && find . -type f \
+        ${FILE_PATTERN:+-name "$FILE_PATTERN"} \
         -not -path '*/.git/*' \
         -not -path '*/node_modules/*' \
         -not -path '*/.next/*' \
@@ -88,6 +103,7 @@ else
         -not -path '*/.DS_Store' \
         -not -path '*/.vscode/*' \
         -not -path '*/.idea/*' \
+        -not -path '*/vendor/*' \
         -print0 2>/dev/null | \
         xargs -0 $SEARCH_CMD $SEARCH_ARGS "$SEARCH_TERM" 2>/dev/null | \
         fzf --delimiter ':' \
