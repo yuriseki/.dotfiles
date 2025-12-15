@@ -38,20 +38,31 @@ return {
     completion = {
       ghost_text = {
         show_with_menu = true,
-        show_without_menu = false,
+        show_without_menu = true, -- Show ghost text even without menu for IntelliJ-like hints
       },
       menu = {
-        auto_show_delay_ms = 500,
+        auto_show_delay_ms = 100, -- Even faster for immediate response
       },
       documentation = { auto_show = false }, -- Displayed with crtl+space
+      -- Avoid duplicate suggestions from multiple sources
+      list = {
+        selection = { preselect = false, auto_insert = false },
+      },
     },
     signature = { enabled = true },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to ``
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "emoji" },
+      default = { "lsp", "path", "buffer", "snippets", "emoji" },
+      -- Prioritize LSP for context-aware completions
       providers = {
+        -- lsp = {
+        --   score_offset = 100, -- Boost LSP suggestions for higher priority
+        -- },
+        -- buffer = {
+        --   score_offset = 50, -- Boost buffer for intra-file context
+        -- },
         emoji = {
           module = "blink-emoji",
           name = "Emoji",
@@ -75,7 +86,10 @@ return {
       },
     },
 
-    fuzzy = { implementation = "prefer_rust_with_warning" },
+    fuzzy = {
+      implementation = "prefer_rust_with_warning",
+      -- Enable prebuilt binaries for better performance
+    },
   },
   opts_extend = { "sources.default" },
 }
