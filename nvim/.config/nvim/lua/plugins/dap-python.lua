@@ -28,46 +28,46 @@ return {
         },
       }
 
-      dap.configurations.python =
+      dap.configurations.python = {
         {
-          {
-            -- Launch a script directly
-            name = "Python: Launch file",
-            type = "python",
-            request = "launch",
-            program = "${file}",
-            console = "integratedTerminal",
-          },
-          {
-            -- Attach to FastAPI by executing:
-            -- python -m debugpy --listen 5678 --wait-for-client -m uvicorn app.main:app --reload
-            name = "Python: Attach to FastAPI",
-            type = "python",
-            request = "attach",
-            host = "127.0.0.1",
-            port = 5678,
-            justMyCode = false,
-            pathMappings = {
-              {
-                localRoot = vim.fn.getcwd(),
-                remoteRoot = ".",
-              },
+          -- Launch a script directly
+          name = "Python: Launch file",
+          type = "python",
+          request = "launch",
+          program = "${file}",
+          console = "integratedTerminal",
+        },
+        {
+          -- Attach to FastAPI by executing:
+          -- python -m debugpy --listen 5678 --wait-for-client -m uvicorn app.main:app --reload
+          name = "Python: Attach to FastAPI",
+          type = "python",
+          request = "attach",
+          host = "127.0.0.1",
+          port = 5678,
+          justMyCode = false,
+          pathMappings = {
+            {
+              localRoot = vim.fn.getcwd(),
+              remoteRoot = ".",
             },
           },
         },
-        -- -------------------------
-        -- 🔄 Auto-update DAP after selecting venv
-        -- -------------------------
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "VenvSelectActivated",
-          callback = function()
-            local new_python = venv.python()
-            if new_python then
-              dap.adapters.python.executable.command = new_python
-              vim.notify("DAP Python interpreter updated:\n" .. new_python, vim.log.levels.INFO)
-            end
-          end,
-        })
+      }
+
+      -- -------------------------
+      -- 🔄 Auto-update DAP after selecting venv
+      -- -------------------------
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "VenvSelectActivated",
+        callback = function()
+          local new_python = venv.python()
+          if new_python then
+            dap.adapters.python.executable.command = new_python
+            vim.notify("DAP Python interpreter updated:\n" .. new_python, vim.log.levels.INFO)
+          end
+        end,
+      })
     end,
   },
 
