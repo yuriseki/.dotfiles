@@ -61,8 +61,6 @@ fish_add_path /home/yuri/.config/composer/vendor/bin
 fish_add_path /home/yuri/.config/composer/vendor/bin
 fish_add_path /home/yuri/.config/composer/vendor/bin
 fish_add_path /home/yuri/.lando/bin
-fish_add_path /home/yuri/.lando/bin
-fish_add_path /home/yuri/.lando/bin
 fish_add_path /home/yuri/.local/bin
 fish_add_path /home/yuri/.nvm/versions/node/v24.11.0/bin
 fish_add_path /home/yuri/bin
