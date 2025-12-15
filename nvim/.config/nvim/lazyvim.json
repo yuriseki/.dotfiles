@@ -16,6 +16,7 @@
     "lazyvim.plugins.extras.lang.yaml",
     "lazyvim.plugins.extras.lsp.none-ls",
     "lazyvim.plugins.extras.ui.treesitter-context",
+    "lazyvim.plugins.extras.dap.core",
     "lazyvim.plugins.extras.util.mini-hipatterns"
   ],
   "install_version": 8,

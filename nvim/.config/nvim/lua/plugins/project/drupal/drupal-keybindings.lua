@@ -2,7 +2,6 @@ local project = require("utils.project")
 local key_bindings = {}
 
 if project.isDrupalProject() then
-  print("IS DRUPAL")
   key_bindings = {
     {
       "<C-M-l>",
@@ -22,8 +21,6 @@ if project.isDrupalProject() then
     },
   }
 else
-  print("NOT DRUPAL")
-
   key_bindings = {
     {
       "<C-M-l>",

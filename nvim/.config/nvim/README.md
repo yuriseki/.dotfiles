@@ -20,6 +20,7 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
     - Start uvicorn with debugpy listener
       - `python -m debugpy --listen 5678 --wait-for-client -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload`
     - In nvim, use the command `VenvSelect` to select the virtual environment.
+    - Attach the session.
 
 - NextJS
   - TODO: Configure NextJS
