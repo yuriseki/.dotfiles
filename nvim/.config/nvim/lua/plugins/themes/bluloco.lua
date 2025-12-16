@@ -28,6 +28,6 @@ return {
       -- nocombine = true,
     })
 
-    vim.cmd("colorscheme bluloco")
+    -- vim.cmd("colorscheme bluloco")
   end,
 }

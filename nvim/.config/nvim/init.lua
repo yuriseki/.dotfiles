@@ -7,6 +7,7 @@ require("utils.load-config-dir").load_config_dir("plugins.config")
 -- require("utils.load-config-dir").load_config_dir("projects-config.drupal")
 
 -- Define theme.
-vim.cmd("colorscheme bluloco")
+vim.cmd("colorscheme nordfox")
+-- vim.cmd("colorscheme nordfox")
 
 

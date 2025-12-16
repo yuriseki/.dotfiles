@@ -2,3 +2,7 @@
 **/secrets.*
 **/.secrets
 *.log
+tmp
+*.cache
+*.log
+
