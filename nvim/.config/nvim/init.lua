@@ -1,3 +1,6 @@
+-- Set listen address for ComradeNeovim communication
+vim.env.NVIM_LISTEN_ADDRESS = "/tmp/nvim_" .. vim.fn.getpid() .. ".sock"
+
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
 require("nvim-treesitter.install").prefer_git = true

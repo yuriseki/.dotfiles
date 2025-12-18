@@ -1,5 +1,6 @@
 return {
   "saghen/blink.cmp",
+  enabled = true,
   dependencies = {
     "rafamadriz/friendly-snippets",
     "moyiz/blink-emoji.nvim",
@@ -82,6 +83,10 @@ return {
               vim.o.filetype
             )
           end,
+        },
+        comrade = {
+          module = "blink_comrade",
+          name = "Comrade",
         },
       },
     },

@@ -14,7 +14,7 @@ vim.opt.clipboard = "unnamedplus"
 -- Enable mousemoveevent
 vim.opt.mousemoveevent = true
 
--- vim.opt.autoindent = true
+vim.opt.autoindent = true
 -- Keep indentation on blank lines
 vim.opt.indentexpr = ""
 vim.opt.smartindent = true
@@ -22,7 +22,7 @@ vim.opt.copyindent = true
 vim.opt.preserveindent = true
 
 -- Better backspace on identation.
--- vim.opt.backspace = { "indent", "eol", "start" }
+vim.opt.backspace = { "indent", "eol", "start" }
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -44,4 +44,3 @@ vim.opt.breakindent = true
 vim.opt.inccommand = "split"
 
 vim.opt.termguicolors = true
-

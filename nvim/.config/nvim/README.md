@@ -37,6 +37,12 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
   - In (A), pres F5 to attach the debug, and select `Attach to running Neovim instance`
   - In (B), execute the action that will trigger the code with the break point
 
+## Code Format
+
+- Drupal
+  - None-ls is configured to read the phpcs.xml from the project root.
+    - Include a phpcs.xml file, such as: `https://github.com/Lullabot/drainpipe/blob/main/drainpipe-dev/scaffold/phpcs.xml.dist`
+
 ## Performing Diff operations
 
 ### Perform a diff between the current file and another branch

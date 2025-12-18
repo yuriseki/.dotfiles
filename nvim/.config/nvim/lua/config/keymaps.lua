@@ -3,6 +3,11 @@
 -- Add any additional keymaps here
 local opts = { noremap = true, silent = true }
 
+-- Remap lowercase 'q' to do nothing
+vim.keymap.set("n", "q", "<Nop>", { noremap = true, silent = true })
+-- Remap uppercase 'Q' to the original 'q' behavior (which starts recording)
+vim.keymap.set("n", "Q", "q", { noremap = true })
+
 -- Undo/Redo
 vim.keymap.set("i", "<C-z>", "<Esc>ua", { silent = true, desc = "Undo" })
 vim.keymap.set("i", "<C-S-z>", "<Esc><C-r>a", { silent = true, desc = "Redo" })
@@ -26,10 +31,10 @@ vim.keymap.set("v", "<S-Up>", "<Up>")
 vim.keymap.set("v", "<S-Down>", "<Down>")
 vim.keymap.set("i", "<C-S-Left>", "<Esc>vB", opts)
 vim.keymap.set("i", "<C-S-Right>", "<Esc>vE", opts)
-vim.keymap.set("i", "<S-Up>", "<esc>V<Up>", opts)
-vim.keymap.set("i", "<S-Down>", "<esc>V<Down>", opts)
-vim.keymap.set("n", "<S-Up>", "V<Up>", opts)
-vim.keymap.set("n", "<S-Down>", "V<Down>", opts)
+vim.keymap.set("i", "<S-Up>", "<esc>v<Up>", opts)
+vim.keymap.set("i", "<S-Down>", "<esc>v<Down>", opts)
+vim.keymap.set("n", "<S-Up>", "v<Up>", opts)
+vim.keymap.set("n", "<S-Down>", "v<Down>", opts)
 
 vim.keymap.set("n", "<C-S-Left>", "vb", { silent = true })
 vim.keymap.set("n", "<C-S-Right>", "vw", { silent = true })
@@ -51,9 +56,14 @@ vim.keymap.set("i", "<S-Right>", "<esc>v<Right>", { silent = true })
 vim.keymap.set("v", "<S-Left>", "h", { silent = true })
 vim.keymap.set("v", "<S-Right>", "l", { silent = true })
 
+-- Select all
+vim.keymap.set("n", "<C-a>", "gg<S-v>G", { desc = "Select All" })
+
 -- -- Delete word (IntelliJ-like)
 vim.keymap.set("i", "<M-BS>", "<Esc>cb<Del>", { desc = "Delete word" })
-vim.keymap.set("i", "<M-Del>", "<Esc>dea", { desc = "Delete word" }) -- Ctrl+Delete
+vim.keymap.set("i", "<M-Del>", "<Esc>ldei", { desc = "Delete word" })
+vim.keymap.set("n", "<M-BS>", "cb<Del>", { desc = "Delete word" })
+vim.keymap.set("n", "<M-Del>", "de", { desc = "Delete word" })
 
 -- Copy/paste inside INSERT mode
 -- vim.keymap.set("v", "y", '"+y<Esc>i', { noremap = true, silent = true, desc = "Yank" })
@@ -90,24 +100,28 @@ vim.keymap.set("n", "<C-b>", function()
   Snacks.bufdelete()
 end, { noremap = true, desc = "Delete Buffer" })
 
-vim.keymap.set({"i","n","v"}, "<C-M-]>", ":bnext<CR>", {desc = "Next Buffer"})
-vim.keymap.set({"i","n","v"}, "<C-M-[>", ":bprevious<CR>", {desc = "Previous Buffer"})
-vim.keymap.set({"i","n","v"}, "<C-M-p>", ":b#<CR>", {desc = "Previous visualised Buffer"})
+vim.keymap.set({ "n", "v" }, "<C-M-]>", ":bnext<CR>", { desc = "Next Buffer" })
+vim.keymap.set({ "n", "v" }, "<C-M-[>", ":bprevious<CR>", { desc = "Previous Buffer" })
+vim.keymap.set({ "n", "v" }, "<C-M-p>", ":b#<CR>", { desc = "Previous visualised Buffer" })
+vim.keymap.set("i", "<C-M-]>", "<Esc>:bnext<CR>", { desc = "Next Buffer" })
+vim.keymap.set("i", "<C-M-[>", "<Esc>:bprevious<CR>", { desc = "Previous Buffer" })
+vim.keymap.set("i", "<C-M-p>", "<Esc>:b#<CR>", { desc = "Previous visualised Buffer" })
 
 -- ----------------------------------------------------------------------------
 -- Coding keys.
 -- ----------------------------------------------------------------------------
-vim.api.nvim_create_user_command("DrupalFormat", function()
-  require("utils.drupal-formatter").drupal_file_format()
-end, {})
-vim.keymap.set("n", "\\cc", ":DrupalFormat<CR>", { desc = "Drupal Format File" })
-
-vim.api.nvim_create_user_command("DrupalFormatRange", function()
-  require("utils.drupal-formatter").drupal_format_selection()
-end, { range = true })
-
-vim.keymap.set("v", "\\cf", ":DrupalFormatRange<CR>")
-
+-- Already defined in drupal-keybindings.lua
+-- vim.api.nvim_create_user_command("DrupalFormat", function()
+--   require("utils.drupal-formatter").drupal_file_format()
+-- end, {})
+-- vim.keymap.set("n", "\\cc", ":DrupalFormat<CR>", { desc = "Drupal Format File" })
+--
+-- vim.api.nvim_create_user_command("DrupalFormatRange", function()
+--   require("utils.drupal-formatter").drupal_format_selection()
+-- end, { range = true })
+--
+-- vim.keymap.set("v", "\\cf", ":DrupalFormatRange<CR>")
+--
 vim.keymap.set("n", "\\cm", function()
   vim.cmd([[
     %join!
