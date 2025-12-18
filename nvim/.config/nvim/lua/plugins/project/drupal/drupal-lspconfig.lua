@@ -88,10 +88,12 @@ return {
           yaml = {
             schemas = {
               -- Symfony DI
-              ["https://json.schemastore.org/composer.json"] = "/*",
-              ["https://json.schemastore.org/symfony-di.json"] = "**/*services.yaml",
+              ["https://getcomposer.org/schema.json"] = "/*",
+              -- I could not find an equivalent to this one, so then it's 
+              -- commented out for now.
+              -- ["https://json.schemastore.org/symfony-di.json"] = "**/*services.yaml",
               -- Drupal services
-              ["https://json.schemastore.org/drupal-services.json"] = "**/*.services.yml",
+              ["https://www.schemastore.org/drupal-services.json"] = "**/*.services.yml",
             },
             validate = true,
             hover = true,
