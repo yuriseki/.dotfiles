@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mkdir $HOME/Dropbox/Yuri-Notes/!Journal/ -p && cd $HOME/Dropbox/Yuri-Notes/!Journal
+mkdir $HOME/Dropbox/Yuri-Notes/!Journal/ -p && "cd $HOME/Dropbox/Yuri-Notes/!Journal || exit"
 noteFilename="$HOME/Dropbox/Yuri-Notes/!Journal/note-$(date +%Y-%m-%d).md"
 
 if [ ! -f "$noteFilename" ]; then
@@ -12,4 +12,4 @@ nvim -c "norm Go" \
 	-c "norm Go## $(date +%H:%M)" \
 	-c "norm G2o" \
 	-c "norm zz" \
-	-c "startinsert" "$noteFilename"
+	"$noteFilename"

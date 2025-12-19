@@ -32,7 +32,7 @@ return {
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned.
-      nerd_font_variant = "normal",
+      nerd_font_variant = "mono",
     },
 
     -- (Default) Only show the documentation popup when manually triggered.
@@ -45,10 +45,7 @@ return {
         auto_show_delay_ms = 100, -- Even faster for immediate response
       },
       documentation = { auto_show = false }, -- Displayed with crtl+space
-      -- Avoid duplicate suggestions from multiple sources
-      list = {
-        selection = { preselect = false, auto_insert = false },
-      },
+
     },
     signature = { enabled = true },
 
@@ -84,10 +81,6 @@ return {
             )
           end,
         },
-        comrade = {
-          module = "blink_comrade",
-          name = "Comrade",
-        },
       },
     },
 
@@ -97,4 +90,26 @@ return {
     },
   },
   opts_extend = { "sources.default" },
+  -- -- TODO: Parei aqui, tentando debugar o cofigo que evita duplicidades.
+  -- config = function(_, opts)
+  --   local original = require("blink.cmp.completion.list").show
+  --   ---@diagnostic disable-next-line: duplicate-set-field
+  --   require("blink.cmp.completion.list").show = function(ctx, items_by_source)
+  --     local seen = {}
+  --     local function filter(item)
+  --       if seen[item.label] then
+  --         return false
+  --       end
+  --       seen[item.label] = true
+  --       return true
+  --     end
+  --     if type(opts.sources.priority) == "table" then
+  --       for id in vim.iter(opts.sources.priority) do
+  --         items_by_source[id] = items_by_source[id] and vim.iter(items_by_source[id]):filter(filter):totable()
+  --       end
+  --     end
+  --     return original(ctx, items_by_source)
+  --   end
+  --   require("blink.cmp").setup(opts)
+  -- end,
 }

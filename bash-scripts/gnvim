@@ -1,0 +1,3 @@
+#!/bin/bash
+# Launches nvim in a new independent gnome-terminal window
+kitty -- nvim "$@"

@@ -125,6 +125,7 @@ export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 export PATH="$PATH:/opt/nvim/"
 
 export EDITOR=nvim
+export VISUAL=gnvim
 
 
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"

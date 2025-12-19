@@ -1,7 +1,8 @@
 source ~/.config/fish/secrets.fish
 
 set -U fish_greeting "" # This line removes the default Fish greeting
-echo "May the Force be with you."
+# echo "May the Force be with you."
+verse
 
 abbr -a -- ldrush 'lando drush'
 abbr -a -- ddrush 'ddev drush'
@@ -22,6 +23,7 @@ abbr -a -- xon 'lando xdebug-on'
 abbr -a -- xoff 'lando xdebug-off'
 abbr -a -- cr 'lando drush cr'
 abbr -a -- lg lazygit
+abbr -a -- y yazi
 
 
 # Aliases

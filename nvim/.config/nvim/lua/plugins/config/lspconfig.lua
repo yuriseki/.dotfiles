@@ -1,6 +1,8 @@
+-- Include here the LSPs
 local servers = {
   bashls = {},
   intelephense = {},
+  phpactor = {},
   yamlls = {},
   lua_ls = {},
   ts_ls = {},
@@ -13,6 +15,7 @@ local servers = {
 -- configs.setup
 local ensure_installed = vim.tbl_keys(servers or {})
 
+-- Include here other non LSP packages to make sure Manson have installed.
 vim.list_extend(ensure_installed, {
   "shellcheck", -- bash linter
   "bash-debug-adapter", -- bash DAP
@@ -20,7 +23,7 @@ vim.list_extend(ensure_installed, {
   "local-lua-debugger-vscode", -- Lua DAP
   "js-debug-adapter", -- JavaScript/TypeScript DAP
   "php-debug-adapter",
-  -- "phpactor",
+  "black", -- Python formatter
   "php-cs-fixer",
   "prettier",
   "prettierd",
@@ -28,8 +31,8 @@ vim.list_extend(ensure_installed, {
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 local original_capabilities = vim.lsp.protocol.make_client_capabilities()
--- local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
-local capabilities = original_capabilities
+local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
+-- local capabilities = original_capabilities
 
 require("mason-lspconfig").setup({
   ensure_installed = {}, -- explicitly set to an empty table (populates installs via mason-tool-installer)
