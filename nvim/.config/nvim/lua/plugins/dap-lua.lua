@@ -27,17 +27,16 @@
 
 -- DAP configuration for Lua development, specifically for Neovim plugins.
 return {
-  "mfussenegger/nvim-dap",
+  "jbyuki/one-small-step-for-vimkind",
   event = "VeryLazy",
   dependencies = {
+    "mfussenegger/nvim-dap",
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
     "jay-babu/mason-nvim-dap.nvim",
     "theHamsta/nvim-dap-virtual-text",
-    "jbyuki/one-small-step-for-vimkind",
   },
   lazy = false,
-  optional = true,
   config = function()
     local dap = require("dap")
 

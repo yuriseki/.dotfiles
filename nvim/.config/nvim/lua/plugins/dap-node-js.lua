@@ -1,8 +1,8 @@
 return {
   {
-    "mfussenegger/nvim-dap",
+    "mxsdev/nvim-dap-vscode-js",
     dependencies = {
-      "mxsdev/nvim-dap-vscode-js",
+      "mfussenegger/nvim-dap",
     },
     ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
     config = function()

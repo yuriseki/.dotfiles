@@ -1,6 +1,7 @@
 return {
   "mfussenegger/nvim-dap",
-  -- This empty function is there because if not it triggers an error.
-  config = function()
-  end,
+  -- This empty table is required so then I can use the config property in
+  -- otherther configurations.
+  -- The nvim-dap itself does not contain the `config` table.
+  config = {},
 }

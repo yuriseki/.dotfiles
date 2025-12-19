@@ -7,7 +7,6 @@ return {
   },
   -- use a release tag to download pre-built binaries
   version = "1.*",
-
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
@@ -45,7 +44,6 @@ return {
         auto_show_delay_ms = 100, -- Even faster for immediate response
       },
       documentation = { auto_show = false }, -- Displayed with crtl+space
-
     },
     signature = { enabled = true },
 
@@ -90,26 +88,35 @@ return {
     },
   },
   opts_extend = { "sources.default" },
-  -- -- TODO: Parei aqui, tentando debugar o cofigo que evita duplicidades.
-  -- config = function(_, opts)
-  --   local original = require("blink.cmp.completion.list").show
-  --   ---@diagnostic disable-next-line: duplicate-set-field
-  --   require("blink.cmp.completion.list").show = function(ctx, items_by_source)
-  --     local seen = {}
-  --     local function filter(item)
-  --       if seen[item.label] then
-  --         return false
-  --       end
-  --       seen[item.label] = true
-  --       return true
-  --     end
-  --     if type(opts.sources.priority) == "table" then
-  --       for id in vim.iter(opts.sources.priority) do
-  --         items_by_source[id] = items_by_source[id] and vim.iter(items_by_source[id]):filter(filter):totable()
-  --       end
-  --     end
-  --     return original(ctx, items_by_source)
-  --   end
-  --   require("blink.cmp").setup(opts)
-  -- end,
+  config = function(_, opts)
+    -- Custom patch to remove duplicates.
+    local list = require("blink.cmp.completion.list")
+    ---@diagnostic disable-next-line: duplicate-set-field
+    require("blink.cmp.completion.list").fuzzy = function(context, items_by_source)
+      local fuzzy = require("blink.cmp.fuzzy")
+      local filtered_items = fuzzy.fuzzy(
+        context.get_line(),
+        context.get_cursor()[2],
+        items_by_source,
+        require("blink.cmp.config").completion.keyword.range
+      )
+
+      local unique_items = {}
+      local seen = {}
+      for _, item in ipairs(filtered_items) do
+        if not seen[item.label] then
+          seen[item.label] = true
+          table.insert(unique_items, item)
+        end
+      end
+
+      -- apply the per source max_items
+      filtered_items = require("blink.cmp.sources.lib").apply_max_items_for_completions(context, unique_items)
+
+      -- apply the global max_items
+      return require("blink.cmp.lib.utils").slice(filtered_items, 1, list.config.max_items)
+    end
+
+    require("blink.cmp").setup(opts)
+  end,
 }
