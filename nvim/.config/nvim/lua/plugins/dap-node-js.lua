@@ -3,6 +3,7 @@ return {
     "mfussenegger/nvim-dap",
     dependencies = {
       "mxsdev/nvim-dap-vscode-js",
+      "rcarriga/nvim-dap-ui",
     },
     ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
     opts = function()
@@ -28,16 +29,21 @@ return {
       -- NextJS development configurations
       dap.configurations.javascript = {
         {
-          name = "NextJS: Launch dev server",
+          name = "NextJS: Attach to dev server",
           type = "pwa-node",
-          request = "launch",
-          program = "${workspaceFolder}/node_modules/.bin/next",
-          args = { "dev" },
+          request = "attach",
+          port = function()
+            return tonumber(vim.fn.input("Debug port: ", "9229")) or 9229
+          end,
+          address = "127.0.0.1",
           cwd = "${workspaceFolder}",
           skipFiles = { "<node_internals>/**", "node_modules/**" },
-          -- Alternative: Use external terminal if you prefer
-          -- console = "externalTerminal",
-          console = "integratedTerminal",
+          sourceMaps = true,
+          resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
+          sourceMapPathOverrides = {
+            ["webpack://_N_E/*"] = "${workspaceFolder}/*",
+            ["webpack://*"] = "${workspaceFolder}/node_modules/*",
+          },
         },
         {
           name = "NextJS: Debug current file",
@@ -48,57 +54,6 @@ return {
           console = "integratedTerminal",
           skipFiles = { "<node_internals>/**", "node_modules/**" },
         },
-        {
-          name = "NextJS: Attach to running process",
-          type = "pwa-node",
-          request = "attach",
-          processId = require("dap.utils").pick_process,
-          cwd = "${workspaceFolder}",
-          skipFiles = { "<node_internals>/**", "node_modules/**" },
-        },
-        {
-          name = "NextJS: Attach to dev server (port 9229)",
-          type = "pwa-node",
-          request = "attach",
-          port = 9229,
-          address = "127.0.0.1",
-          -- Match launch config exactly
-          cwd = "${workspaceFolder}",
-          console = "integratedTerminal",
-          skipFiles = { "<node_internals>/**", "node_modules/**" },
-          sourceMaps = true,
-          resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
-          sourceMapPathOverrides = {
-            ["webpack://_N_E/*"] = "${workspaceFolder}/*",
-            ["webpack://*"] = "${workspaceFolder}/node_modules/*",
-          },
-          -- Try with minimal settings first (like launch config)
-          -- If breakpoints still don't work, the issue is likely with
-          -- how NextJS handles source maps when started manually
-        },
-        -- {
-        --   name = "NextJS: Attach to dev server (auto-detect port)",
-        --   type = "pwa-node",
-        --   request = "attach",
-        --   port = function()
-        --     -- Try common debug ports
-        --     local ports = { 9229, 9930, 9222, 9223, 9224, 9225 }
-        --     for _, port in ipairs(ports) do
-        --       local handle = io.popen("lsof -i :" .. port .. " 2>/dev/null")
-        --       if handle then
-        --         local result = handle:read("*a")
-        --         handle:close()
-        --         if result and result ~= "" then
-        --           return port
-        --         end
-        --       end
-        --     end
-        --     return 9229 -- fallback
-        --   end,
-        --   host = "127.0.0.1",
-        --   cwd = "${workspaceFolder}",
-        --   skipFiles = { "<node_internals>/**", "node_modules/**" },
-        -- },
       }
 
       -- TypeScript configurations (same as JavaScript)

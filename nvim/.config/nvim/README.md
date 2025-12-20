@@ -23,7 +23,9 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
     - Attach the session.
 
 - NextJS
-  - TODO: Configure NextJS
+  - Initialize the server with `NODE_OPTIONS='--inspect=9229' npm run dev`
+  - Press F5 to start the debug adapter with the option `NextJS: Attach to dev server`,
+    and enter the correct port.
 
 - PHP in Drupal with Lando
   - Press F4 to define a breaking point

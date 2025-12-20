@@ -81,4 +81,4 @@ fish_add_path /usr/sbin
 
 # Set default node version.
 bass source ~/.nvm/nvm.sh
-nvm use default
+nvm use default > /dev/null 2>&1
