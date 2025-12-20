@@ -6,12 +6,12 @@ return {
     wk.add({
       { "\\", group = "Custom Backslask Mappings" },
 
-      { "\\c", group = "[C]ode" },
-      { "\\d", group = "[D]iff" },
-      { "\\f", group = "[F]uzzy find - Fzf" },
-      { "\\g", group = "[G]it" },
-      { "\\o", group = "[O]pen code" },
-      { "\\s", group = "[S]earch" },
+      { "\\c", group = "Code" },
+      { "\\d", group = "Diff" },
+      { "\\f", group = "Fuzzy find - Fzf" },
+      { "\\g", group = "Git" },
+      { "\\o", group = "Opencode AI" },
+      { "\\s", group = "Search" },
 
       -- Add GitHuk to the regular <Leader>g group.
       -- { "<leader>gh", group = "Git [H]unk" },

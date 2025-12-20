@@ -5,8 +5,8 @@ local opts = { noremap = true, silent = true }
 
 -- remap lowercase 'q' to do nothing
 vim.keymap.set("n", "q", "<nop>", { noremap = true, silent = true })
--- remap uppercase 'q' to the original 'q' behavior (which starts recording)
-vim.keymap.set("n", "q", "q", { noremap = true })
+-- remap uppercase 'Q' to the original 'q' behavior (which starts recording)
+vim.keymap.set("n", "Q", "q", { noremap = true })
 
 -- undo/redo
 vim.keymap.set("i", "<c-z>", "<esc>ua", { silent = true, desc = "undo" })
