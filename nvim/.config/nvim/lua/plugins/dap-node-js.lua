@@ -1,11 +1,11 @@
 return {
   {
-    "mxsdev/nvim-dap-vscode-js",
+    "mfussenegger/nvim-dap",
     dependencies = {
-      "mfussenegger/nvim-dap",
+      "mxsdev/nvim-dap-vscode-js",
     },
     ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-    config = function()
+    opts = function()
       local dap = require("dap")
 
       -- -------------------------
@@ -36,8 +36,8 @@ return {
           cwd = "${workspaceFolder}",
           skipFiles = { "<node_internals>/**", "node_modules/**" },
           -- Alternative: Use external terminal if you prefer
-          console = "externalTerminal",
-          -- console = "integratedTerminal",
+          -- console = "externalTerminal",
+          console = "integratedTerminal",
         },
         {
           name = "NextJS: Debug current file",
@@ -66,6 +66,12 @@ return {
           cwd = "${workspaceFolder}",
           console = "integratedTerminal",
           skipFiles = { "<node_internals>/**", "node_modules/**" },
+          sourceMaps = true,
+          resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
+          sourceMapPathOverrides = {
+            ["webpack://_N_E/*"] = "${workspaceFolder}/*",
+            ["webpack://*"] = "${workspaceFolder}/node_modules/*",
+          },
           -- Try with minimal settings first (like launch config)
           -- If breakpoints still don't work, the issue is likely with
           -- how NextJS handles source maps when started manually

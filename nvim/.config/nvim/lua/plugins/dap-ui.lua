@@ -64,20 +64,14 @@ return {
       vim.fn.sign_define("DapStopped", { text = " ", texthl = "DiagnosticError", linehl = "Visual" })
 
       -- ---------------------------------------------------------
-      -- Attach listenerd to DapUi
+      -- Configure Listeners to prevent auto-open/close
       -- ---------------------------------------------------------
-      dap.listeners.before.attach.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.launch.dapui_config = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated.dapui_config = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited.dapui_config = function()
-        dapui.close()
-      end
+      opts.listeners = {
+        dap = {
+          started = function() end,  -- Disable auto-open on debug start
+          terminated = function() end,  -- Disable auto-close on debug end
+        },
+      }
 
       -- ---------------------------------------------------------
       -- Configure Layout

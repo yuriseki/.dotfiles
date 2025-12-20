@@ -18,7 +18,7 @@ return {
   keys = {
     -- Recommended/example keymaps.
     {
-      "\\<C-a>",
+      "\\oa",
       function()
         require("opencode").ask("@this: ", { submit = true })
       end,
@@ -26,7 +26,7 @@ return {
       desc = "Ask opencode",
     },
     {
-      "\\<C-x>",
+      "\\ox",
       function()
         require("opencode").select()
       end,
@@ -34,20 +34,38 @@ return {
       desc = "Execute opencode action…",
     },
     {
-      "ga",
+      "\\or",
       function()
-        require("opencode").prompt("@this")
+        return require("opencode").operator("@this")
       end,
+      expr = true,
       mode = { "n", "x" },
-      desc = "Add to opencode",
+      desc = "Add range to opencode",
     },
     {
-      "<C-.>",
+      "\\ol",
+      function()
+        return require("opencode").operator("@this") .. "_"
+      end,
+      expr = true,
+      mode = { "n" },
+      desc = "Add line to opencode",
+    },
+    {
+      "\\oo",
       function()
         require("opencode").toggle()
       end,
       mode = { "n", "t" },
       desc = "Toggle opencode",
+    },
+    {
+      "\\os",
+      function()
+        require("opencode").select()
+      end,
+      mode = { "n" },
+      desc = "Select available options",
     },
     {
       "<S-C-u>",

@@ -78,3 +78,7 @@ fish_add_path /usr/local/bin
 fish_add_path /usr/local/games
 fish_add_path /usr/local/sbin
 fish_add_path /usr/sbin
+
+# Set default node version.
+bass source ~/.nvm/nvm.sh
+nvm use default

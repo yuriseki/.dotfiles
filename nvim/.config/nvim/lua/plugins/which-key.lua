@@ -10,6 +10,7 @@ return {
       { "\\d", group = "[D]iff" },
       { "\\f", group = "[F]uzzy find - Fzf" },
       { "\\g", group = "[G]it" },
+      { "\\o", group = "[O]pen code" },
       { "\\s", group = "[S]earch" },
 
       -- Add GitHuk to the regular <Leader>g group.
