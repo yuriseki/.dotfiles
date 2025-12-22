@@ -500,7 +500,7 @@ return {
           SnacksPickerGitStatusUnmerged = { fg = bluloco.number },
           SnacksPickerGitStatusDeleted = { fg = bluloco.type },
           SnacksPickerGitStatusIgnored = { fg = bluloco.comment },
-          SnacksPickerGitStatusUntracked = { fg = bluloco.comment },
+          SnacksPickerGitStatusUntracked = { fg = bluloco.attribute },
           SnacksIndent = { fg = bluloco.grey10 },
           SnacksIndentScope = { fg = bluloco.comment },
           SnacksIndent1 = { fg = bluloco.rainbowRed },

@@ -5,7 +5,33 @@ local servers = {
   phpactor = {},
   yamlls = {},
   lua_ls = {},
-  ts_ls = {},
+  jdtls = {}, -- Add Java LSP for IntelliJ-like suggestions
+  ts_ls = {
+    settings = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "none",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = false,
+          includeInlayVariableTypeHints = false,
+          includeInlayPropertyDeclarationTypeHints = false,
+          includeInlayFunctionLikeReturnTypeHints = false,
+          includeInlayEnumMemberValueHints = false,
+        },
+      },
+      javascript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "none",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = false,
+          includeInlayVariableTypeHints = false,
+          includeInlayPropertyDeclarationTypeHints = false,
+          includeInlayFunctionLikeReturnTypeHints = false,
+          includeInlayEnumMemberValueHints = false,
+        },
+      },
+    },
+  },
   pyright = {},
   cssls = {},
   html = {},

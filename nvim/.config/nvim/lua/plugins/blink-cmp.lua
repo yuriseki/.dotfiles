@@ -24,7 +24,7 @@ return {
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = {
       preset = "super-tab",
-      -- ["<CR>"] = { "accept", "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
       ["<M-q>"] = { "hide" },
     },
 
@@ -46,11 +46,14 @@ return {
       documentation = { auto_show = false }, -- Displayed with crtl+space
     },
     signature = { enabled = true },
+    snippets = {
+      preset = "luasnip",
+    },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to ``
     sources = {
-      default = { "lsp", "path", "buffer", "snippets", "emoji" },
+      default = { "lsp", "buffer", "path", "snippets", "emoji" },
       -- Prioritize LSP for context-aware completions
       providers = {
         -- lsp = {
@@ -88,35 +91,36 @@ return {
     },
   },
   opts_extend = { "sources.default" },
-  config = function(_, opts)
-    -- Custom patch to remove duplicates.
-    local list = require("blink.cmp.completion.list")
-    ---@diagnostic disable-next-line: duplicate-set-field
-    require("blink.cmp.completion.list").fuzzy = function(context, items_by_source)
-      local fuzzy = require("blink.cmp.fuzzy")
-      local filtered_items = fuzzy.fuzzy(
-        context.get_line(),
-        context.get_cursor()[2],
-        items_by_source,
-        require("blink.cmp.config").completion.keyword.range
-      )
-
-      local unique_items = {}
-      local seen = {}
-      for _, item in ipairs(filtered_items) do
-        if not seen[item.label] then
-          seen[item.label] = true
-          table.insert(unique_items, item)
-        end
-      end
-
-      -- apply the per source max_items
-      filtered_items = require("blink.cmp.sources.lib").apply_max_items_for_completions(context, unique_items)
-
-      -- apply the global max_items
-      return require("blink.cmp.lib.utils").slice(filtered_items, 1, list.config.max_items)
-    end
-
-    require("blink.cmp").setup(opts)
-  end,
+  -- config = function(_, opts)
+  --   -- Custom patch to remove duplicates.
+  --   local list = require("blink.cmp.completion.list")
+  --   ---@diagnostic disable-next-line: duplicate-set-field
+  --   require("blink.cmp.completion.list").fuzzy = function(context, items_by_source)
+  --     local fuzzy = require("blink.cmp.fuzzy")
+  --     local filtered_items = fuzzy.fuzzy(
+  --       context.get_line(),
+  --       context.get_cursor()[2],
+  --       items_by_source,
+  --       require("blink.cmp.config").completion.keyword.range
+  --     )
+  --
+  --     local unique_items = {}
+  --     local seen = {}
+  --     for _, item in ipairs(filtered_items) do
+  --       local key = item.label .. ":" .. (item.source_id or "")
+  --       if not seen[key] then
+  --         seen[key] = true
+  --         table.insert(unique_items, item)
+  --       end
+  --     end
+  --
+  --     -- apply the per source max_items
+  --     filtered_items = require("blink.cmp.sources.lib").apply_max_items_for_completions(context, unique_items)
+  --
+  --     -- apply the global max_items
+  --     return require("blink.cmp.lib.utils").slice(filtered_items, 1, list.config.max_items)
+  --   end
+  --
+  --   require("blink.cmp").setup(opts)
+  -- end,
 }
