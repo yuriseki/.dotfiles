@@ -71,7 +71,7 @@ vim.keymap.set("i", "<c-s-v>", '<esc>"0pa', opts) -- escape substitute (like pre
 vim.keymap.set({ "i", "v" }, "jk", "<Esc>", { desc = "Esc alternative" })
 
 -- Other text edit navigation
-vim.keymap.set("i", "<S-End>", "<esc>v$h", { noremap = true, desc = "Select end" })
+vim.keymap.set("i", "<S-End>", "<esc>lv$h", { noremap = true, desc = "Select end" })
 vim.keymap.set("n", "<S-End>", "v$h", { noremap = true, desc = "Select end" })
 vim.keymap.set("v", "<end>", "$h", { noremap = true, desc = "Select end" })
 vim.keymap.set("i", "<Home>", "<Esc>^i", { noremap = true, desc = "Go home" })
