@@ -24,6 +24,10 @@ vim.opt.preserveindent = true
 -- Better backspace on identation.
 vim.opt.backspace = { "indent", "eol", "start" }
 
+-- Do not remove trailing spaces when switching modes.
+vim.g.lazyvim_mini_trailspace = false
+vim.opt.startofline = false
+
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true

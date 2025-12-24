@@ -54,9 +54,13 @@ vim.api.nvim_create_autocmd("InsertEnter", {
       insert_timer:stop()
     end
     insert_timer = vim.loop.new_timer()
-    insert_timer:start(time_to_return_to_normal_mode, 0, vim.schedule_wrap(function()
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
-    end))
+    insert_timer:start(
+      time_to_return_to_normal_mode,
+      0,
+      vim.schedule_wrap(function()
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+      end)
+    )
   end,
 })
 vim.api.nvim_create_autocmd("InsertLeave", {
@@ -71,10 +75,28 @@ vim.api.nvim_create_autocmd("TextChangedI", {
   callback = function()
     if insert_timer then
       insert_timer:stop()
-      insert_timer:start(time_to_return_to_normal_mode, 0, vim.schedule_wrap(function()
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
-      end))
+      insert_timer:start(
+        time_to_return_to_normal_mode,
+        0,
+        vim.schedule_wrap(function()
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+        end)
+      )
     end
   end,
 })
 
+-- Insert spaces based on previous line's indent when leaving insert on an empty line
+vim.api.nvim_create_autocmd("InsertLeave", {
+  callback = function()
+    local line = vim.fn.line(".")
+    local content = vim.fn.getline(line)
+    if content:match("^%s*$") then
+      local prev_indent = vim.fn.indent(line - 1)
+      if prev_indent > 0 then
+        vim.fn.setline(line, string.rep(" ", prev_indent))
+        vim.fn.cursor(line, prev_indent + 1)
+      end
+    end
+  end,
+})
