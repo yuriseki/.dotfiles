@@ -1,10 +1,9 @@
-return {}
--- Copilot disabled in favor of Avante with Ollama
--- return {
---   "github/copilot.vim",
---   event = "InsertEnter",
---   config = function()
---     vim.g.copilot_no_tab_map = true
---     vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
---   end,
--- }
+if true then return {} end
+return {
+  "github/copilot.vim",
+  event = "InsertEnter",
+  config = function()
+    vim.g.copilot_no_tab_map = true
+    vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+  end,
+}

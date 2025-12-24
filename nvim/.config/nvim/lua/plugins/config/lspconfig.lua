@@ -53,6 +53,7 @@ vim.list_extend(ensure_installed, {
   "php-cs-fixer",
   "prettier",
   "prettierd",
+  "dotenv-linter",
 })
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -70,6 +71,10 @@ require("mason-lspconfig").setup({
       -- by the server configuration above. Useful when disabling
       -- certain features of an LSP (for example, turning off formatting for ts_ls)
       server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+      server.on_attach = function(client)
+        -- Disable inlay hints to prevent column out of range errors
+        client.server_capabilities.inlayHintProvider = false
+      end
       require("lspconfig")[server_name].setup(server)
     end,
   },

@@ -36,6 +36,9 @@ return {
 
     -- (Default) Only show the documentation popup when manually triggered.
     completion = {
+      keyword = {
+        range = "full", -- Only complete from word start to avoid overlapping ghost text
+      },
       ghost_text = {
         show_with_menu = true,
         show_without_menu = true, -- Show ghost text even without menu for IntelliJ-like hints
@@ -53,14 +56,34 @@ return {
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to ``
     sources = {
-      default = { "lsp", "buffer", "path", "snippets", "emoji" },
+      default = {
+        -- "avante",
+        "lsp",
+        "buffer",
+        "path",
+        "snippets",
+        "emoji",
+      },
       -- Prioritize LSP for context-aware completions
       providers = {
-        -- lsp = {
-        --   score_offset = 100, -- Boost LSP suggestions for higher priority
-        -- },
-        -- buffer = {
-        --   score_offset = 50, -- Boost buffer for intra-file context
+        lsp = {
+          score_offset = 2, -- Boost LSP suggestions for higher priority
+        },
+        buffer = {
+          score_offset = 1, -- Boost buffer for intra-file context
+        },
+        path = {
+          score_offset = 0, -- Boost buffer for intra-file context
+        },
+        snippets = {
+          score_offset = 0, -- Boost buffer for intra-file context
+        },
+        -- avante = {
+        --   module = "blink-cmp-avante",
+        --   name = "Avante",
+        --   opts = {
+        --     -- options for blink-cmp-avante
+        --   },
         -- },
         emoji = {
           module = "blink-emoji",

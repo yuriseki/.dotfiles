@@ -17,21 +17,64 @@
 -- })
 --
 
-
 -- Associate drupal filetypes as PHP.
-vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
-    pattern = {"*.module", "*.theme", "*.install", "*.inc"},
-    callback = function()
-        vim.opt.filetype = "php"
-    end,
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.module", "*.theme", "*.install", "*.inc" },
+  callback = function()
+    vim.opt.filetype = "php"
+  end,
+})
+
+-- Associate .env.local files with dotenv syntax highlighting
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { ".env", "*.env", ".env.*", ".env.local" },
+  callback = function()
+    vim.opt.filetype = "sh"
+  end,
 })
 
 -- Open pdf
- vim.api.nvim_create_autocmd("BufReadPost", {
-   pattern = "*.pdf",
-   callback = function()
-     local file_path = vim.api.nvim_buf_get_name(0)
-     require("pdfview").open(file_path)
-   end,
- })
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*.pdf",
+  callback = function()
+    local file_path = vim.api.nvim_buf_get_name(0)
+    require("pdfview").open(file_path)
+  end,
+})
+
+-- Disable inlay hints to avoid column out of range errors
+vim.lsp.inlay_hint.enable(false)
+
+-- Auto return to normal mode after X seconds of inactivity in insert mode
+local time_to_return_to_normal_mode = 3000
+local insert_timer = nil
+vim.api.nvim_create_autocmd("InsertEnter", {
+  callback = function()
+    if insert_timer then
+      insert_timer:stop()
+    end
+    insert_timer = vim.loop.new_timer()
+    insert_timer:start(time_to_return_to_normal_mode, 0, vim.schedule_wrap(function()
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+    end))
+  end,
+})
+vim.api.nvim_create_autocmd("InsertLeave", {
+  callback = function()
+    if insert_timer then
+      insert_timer:stop()
+      insert_timer = nil
+    end
+  end,
+})
+vim.api.nvim_create_autocmd("TextChangedI", {
+  callback = function()
+    if insert_timer then
+      insert_timer:stop()
+      insert_timer:start(time_to_return_to_normal_mode, 0, vim.schedule_wrap(function()
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+      end))
+    end
+  end,
+})
 
