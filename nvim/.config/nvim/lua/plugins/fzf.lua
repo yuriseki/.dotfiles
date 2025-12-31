@@ -7,7 +7,16 @@ return {
   ---@module "fzf-lua"
   ---@type fzf-lua.Config|{}
   ---@diagnostics disable: missing-fields
-  opts = {},
+  opts = {
+    zfz_opts = {
+      ["--bind"] = "alt-w:wincmd w",
+   },
+    -- keymap = {
+    --    fzf = {
+    --      ["alt-w"] = "execute:wincmd w<CR>", -- Cycle windows
+    --    },
+    --  },
+  },
   ---@diagnostics enable: missing-fields
   -- keys = {
   --   {""},

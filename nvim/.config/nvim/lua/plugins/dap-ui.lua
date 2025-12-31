@@ -70,6 +70,9 @@ return {
         dap = {
           started = function() end, -- Disable auto-open on debug start
           terminated = function() end, -- Disable auto-close on debug end
+          event_terminated = function() end, -- Prevent close on termination
+          event_exited = function() end, -- Prevent close on exit
+          event_stopped = function() end, -- Prevent actions on stop
         },
       }
 
@@ -77,6 +80,29 @@ return {
       -- Override controls order
       -- ---------------------------------------------------------
       local controls = require("dapui.controls")
+      local blinking_func = nil
+      vim.api.nvim_set_hl(0, "DapUIBlink", { fg = "#ffffff", bg = "#ff0000", bold = true }) -- Bright red blink highlight
+
+      _G._dapui_blink_timer = nil
+      setmetatable(_G._dapui, {
+        __index = function(_, key)
+          return function()
+            local result = dap[key]()
+            -- Trigger blink for this func
+            blinking_func = key
+            if _G._dapui_blink_timer then
+              _G._dapui_blink_timer:stop()
+            end
+            _G._dapui_blink_timer = vim.defer_fn(function()
+              blinking_func = nil
+              controls.refresh_control_panel()
+            end, 300) -- Blink for 300ms
+            controls.refresh_control_panel()
+            return result
+          end
+        end,
+      })
+
       controls.controls = function(is_active)
         local session = dap.session()
 
@@ -119,7 +145,11 @@ return {
         }
         local bar = ""
         for _, elem in ipairs(elems) do
-          bar = bar .. ("  %%#%s#%%0@v:lua._dapui.%s@%s%%#0#"):format(elem.hl, elem.func, elem.icon or icons[elem.func])
+          local hl = elem.hl
+          if elem.func == blinking_func then
+            hl = "DapUIBlink"
+          end
+          bar = bar .. ("  %%#%s#%%0@v:lua._dapui.%s@%s%%#0#"):format(hl, elem.func, elem.icon or icons[elem.func])
         end
         return bar
       end

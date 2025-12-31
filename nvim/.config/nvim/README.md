@@ -61,6 +61,10 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
 
 Where `%` means the current file.
 
+## Plugins to analyze
+
+- [vimfony](https://github.com/shinyvision/vimfony) - A plugin to jump between Symfony definitions
+
 ## Reading reference
 
 [LazyVim book by dustyphillipscodes](https://lazyvim-ambitious-devs.phillips.codes/course/chapter-1/)

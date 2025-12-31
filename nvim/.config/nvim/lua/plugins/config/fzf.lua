@@ -31,4 +31,3 @@ end, { desc = "Live Grep selection" })
 map("n", "\\fb", "<cmd>FzfLua lgrep_curbuf<CR>", { desc = "Grep current buffer" })
 map("n", "\\fr", "<cmd>FzfLua resume<CR>", { desc = "Resume" })
 map("n", "\\\\", "<cmd>FzfLua buffers<CR>", { desc = "[\\] Find open buffers" })
-

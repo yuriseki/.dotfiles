@@ -6,32 +6,33 @@ local servers = {
   yamlls = {},
   lua_ls = {},
   jdtls = {}, -- Add Java LSP for IntelliJ-like suggestions
-  ts_ls = {
-    settings = {
-      typescript = {
-        inlayHints = {
-          includeInlayParameterNameHints = "none",
-          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-          includeInlayFunctionParameterTypeHints = false,
-          includeInlayVariableTypeHints = false,
-          includeInlayPropertyDeclarationTypeHints = false,
-          includeInlayFunctionLikeReturnTypeHints = false,
-          includeInlayEnumMemberValueHints = false,
-        },
-      },
-      javascript = {
-        inlayHints = {
-          includeInlayParameterNameHints = "none",
-          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-          includeInlayFunctionParameterTypeHints = false,
-          includeInlayVariableTypeHints = false,
-          includeInlayPropertyDeclarationTypeHints = false,
-          includeInlayFunctionLikeReturnTypeHints = false,
-          includeInlayEnumMemberValueHints = false,
-        },
-      },
-    },
-  },
+  -- ts_ls = {
+  --   settings = {
+  --     typescript = {
+  --       inlayHints = {
+  --         includeInlayParameterNameHints = "none",
+  --         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+  --         includeInlayFunctionParameterTypeHints = false,
+  --         includeInlayVariableTypeHints = false,
+  --         includeInlayPropertyDeclarationTypeHints = false,
+  --         includeInlayFunctionLikeReturnTypeHints = false,
+  --         includeInlayEnumMemberValueHints = false,
+  --       },
+  --     },
+  --     javascript = {
+  --       inlayHints = {
+  --         includeInlayParameterNameHints = "none",
+  --         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+  --         includeInlayFunctionParameterTypeHints = false,
+  --         includeInlayVariableTypeHints = false,
+  --         includeInlayPropertyDeclarationTypeHints = false,
+  --         includeInlayFunctionLikeReturnTypeHints = false,
+  --         includeInlayEnumMemberValueHints = false,
+  --       },
+  --     },
+  --   },
+  -- },
+  vtsls = {}, -- Use vtsls for JavaScript/TS instead of ts_ls
   pyright = {},
   cssls = {},
   html = {},

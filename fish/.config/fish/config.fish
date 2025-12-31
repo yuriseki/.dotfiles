@@ -24,6 +24,8 @@ abbr -a -- xoff 'lando xdebug-off'
 abbr -a -- cr 'lando drush cr'
 abbr -a -- lg lazygit
 abbr -a -- y yazi
+abbr -a -- dpy "python -m debugpy --listen 5678 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+abbr -a -- dnode "NODE_OPTIONS='--inspect=9228' npm run dev"
 
 
 # Aliases

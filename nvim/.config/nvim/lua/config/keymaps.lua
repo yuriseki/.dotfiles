@@ -67,8 +67,15 @@ vim.keymap.set("n", "<m-del>", "de", { desc = "delete word" })
 
 -- copy/paste inside insert mode
 -- vim.keymap.set("v", "y", '"+y<esc>i', { noremap = true, silent = true, desc = "yank" })
-vim.keymap.set("i", "<c-s-v>", '<esc>"0pa', opts) -- escape substitute (like pressing esc without leaving insert mo de)
+vim.keymap.set("i", "<m-v>", "<c-r>0", opts)
+vim.keymap.set("v", "<m-v>", '"0p', opts)
 vim.keymap.set({ "i", "v" }, "jk", "<Esc>", { desc = "Esc alternative" })
+
+-- Make deletions and changes not override the unnamed register (clipboard)
+vim.keymap.set("n", "x", '"xx')
+vim.keymap.set("n", "d", '"dd')
+vim.keymap.set("v", "d", '"dd')
+vim.keymap.set("n", "c", '"cc')
 
 -- Other text edit navigation
 vim.keymap.set("i", "<S-End>", "<esc>lv$h", { noremap = true, desc = "Select end" })
@@ -91,7 +98,12 @@ vim.keymap.set("n", "<S-Home>", "v0", { noremap = true, desc = "Select home" })
 vim.keymap.set("i", "<C-d>", "<esc>yypi", { noremap = true, desc = "Duplicate line" })
 
 -- Oil navigation
-vim.keymap.set("n", "-", "<cmd>Oil --float<CR>", { desc = "Open current directory in Oil" })
+-- vim.keymap.set("n", "-", "<cmd>Oil --float<CR>", { desc = "Open current directory in Oil" })
+
+-- Tabs
+vim.keymap.set("i", "<S-Tab>", "<C-D>", { desc = "Unindent" })
+vim.keymap.set("v", "<Tab>", ">gv", { desc = "Ident" })
+vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent" })
 
 -- ----------------------------------------------------------------------------
 -- UI keys.

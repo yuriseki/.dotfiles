@@ -22,3 +22,12 @@ lspconfig
 spellfile
 lsp
 FastAPI
+Symfony
+async
+AsyncSession
+Args
+AnswersForQuestionResponse
+Revalidate
+api
+HTTPException
+question

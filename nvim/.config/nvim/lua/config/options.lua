@@ -5,13 +5,13 @@
 vim.opt.relativenumber = false
 
 -- Disable autoformat on save
--- It conflicts with auto-save
+-- It conflicts with autosave
 vim.g.autoformat = false
 
 -- Use standard clipboard
 vim.opt.clipboard = "unnamedplus"
 
--- Enable mousemoveevent
+-- Enable mouse movement
 vim.opt.mousemoveevent = true
 
 vim.opt.autoindent = true
@@ -21,7 +21,7 @@ vim.opt.smartindent = true
 vim.opt.copyindent = true
 vim.opt.preserveindent = true
 
--- Better backspace on identation.
+-- Better backspace on indentation.
 vim.opt.backspace = { "indent", "eol", "start" }
 
 -- Do not remove trailing spaces when switching modes.
@@ -44,7 +44,12 @@ vim.opt.colorcolumn = "80"
 vim.opt.undofile = true
 vim.opt.breakindent = true
 
--- Preview substitutions live, as you type.
+-- Preview substitutions live, as you type. It's the s/ command.
 vim.opt.inccommand = "split"
 
 vim.opt.termguicolors = true
+
+-- Turn on spellcheck by default
+vim.opt.spell = true
+vim.opt.spelllang = "en_us,pt_br"
+vim.opt.spelloptions:append("camel")

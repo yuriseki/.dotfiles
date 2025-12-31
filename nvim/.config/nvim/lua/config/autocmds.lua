@@ -87,16 +87,16 @@ vim.api.nvim_create_autocmd("TextChangedI", {
 })
 
 -- Insert spaces based on previous line's indent when leaving insert on an empty line
-vim.api.nvim_create_autocmd("InsertLeave", {
-  callback = function()
-    local line = vim.fn.line(".")
-    local content = vim.fn.getline(line)
-    if content:match("^%s*$") then
-      local prev_indent = vim.fn.indent(line - 1)
-      if prev_indent > 0 then
-        vim.fn.setline(line, string.rep(" ", prev_indent))
-        vim.fn.cursor(line, prev_indent + 1)
-      end
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("InsertLeave", {
+--   callback = function()
+--     local line = vim.fn.line(".")
+--     local content = vim.fn.getline(line)
+--     if content:match("^%s*$") then
+--       local prev_indent = vim.fn.indent(line - 1)
+--       if prev_indent > 0 then
+--         vim.fn.setline(line, string.rep(" ", prev_indent))
+--         vim.fn.cursor(line, prev_indent + 1)
+--       end
+--     end
+--   end,
+-- })
