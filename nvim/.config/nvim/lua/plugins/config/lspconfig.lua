@@ -1,7 +1,7 @@
 -- Include here the LSPs
 local servers = {
   bashls = {},
-  intelephense = {},
+  -- intelephense = {},
   phpactor = {},
   yamlls = {},
   lua_ls = {},
@@ -59,7 +59,8 @@ vim.list_extend(ensure_installed, {
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 local original_capabilities = vim.lsp.protocol.make_client_capabilities()
-local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
+-- local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
+-- local capabilities = require("nvim-cmp").get_lsp_capabilities(original_capabilities)
 -- local capabilities = original_capabilities
 
 require("mason-lspconfig").setup({

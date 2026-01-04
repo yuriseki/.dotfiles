@@ -46,7 +46,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.lsp.inlay_hint.enable(false)
 
 -- Auto return to normal mode after X seconds of inactivity in insert mode
-local time_to_return_to_normal_mode = 5000
+local time_to_return_to_normal_mode = 50000
 local insert_timer = nil
 vim.api.nvim_create_autocmd("InsertEnter", {
   callback = function()
@@ -100,3 +100,10 @@ vim.api.nvim_create_autocmd("TextChangedI", {
 --     end
 --   end,
 -- })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.php", "*.inc", "*.module", "*.install" }, -- Add your desired patterns here
+  callback = function()
+    vim.cmd("LspStart phpactor") -- Or intelephense if switching
+  end,
+})

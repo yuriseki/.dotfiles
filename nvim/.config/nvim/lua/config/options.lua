@@ -53,3 +53,6 @@ vim.opt.termguicolors = true
 vim.opt.spell = true
 vim.opt.spelllang = "en_us,pt_br"
 vim.opt.spelloptions:append("camel")
+
+
+vim.g.lazyvim_php_lsp = "phpactor"

@@ -143,4 +143,14 @@ vim.keymap.set("n", "\\cm", function()
   ]])
 end, { desc = "[M]inify text" })
 
+-- Insert new line between pairs of brackets or quotes.
+local check_pair = require("utils.check-pair").check_pair
+vim.keymap.set("i", "<cr>", function()
+  if check_pair() then
+    return "<cr><esc>O"
+  else
+    return "<cr><c-g>u"
+  end
+end, { expr = true })
+
 --This is check how

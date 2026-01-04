@@ -15,7 +15,7 @@ return {
           "/tmp/drupal_ls-log.txt",
         },
         filetypes = { "php", "yaml", "yml", "module", "inc" },
-        root_dir = lspconfig.util.root_pattern("composer.json"),
+        root_dir = lspconfig.util.root_pattern("composer.json", ".git"),
         settings = {},
       },
     }

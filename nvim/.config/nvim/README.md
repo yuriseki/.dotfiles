@@ -44,6 +44,46 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
 - Drupal
   - None-ls is configured to read the phpcs.xml from the project root.
     - Include a phpcs.xml file, such as: `https://github.com/Lullabot/drainpipe/blob/main/drainpipe-dev/scaffold/phpcs.xml.dist`
+  - Phpactor: I'm using it as the main PHP language server.
+    By default, Phpactor will not index `.inc` nor `.module` files.
+
+    Run the following on your project to enable the indexing of `.inc` and `.module` files.
+
+    `phpactor config:set indexer.supported_extensions '["php", "inc", "module"]'`
+
+    `phpactor config:set indexer.include_patterns '["/**/*.php", "/**/*.inc", "/**/*.module"]'`
+
+    Add the modules into the Composer autoloader
+
+    ```json
+    {
+      "require": {
+        "fenetikm/autoload-drupal": "0.1"
+      },
+      "extra": {
+        "autoload-drupal": {
+          "modules": [
+            "web/modules/contrib/",
+            "web/modules/custom/",
+            "web/core/modules/"
+          ]
+        }
+      }
+    }
+    ```
+
+    Execute the following commands in the project root:
+
+    ```bash
+    phpactor config:trust
+    phpactor config:json-schema phpactor.schema.json
+    phpactor config:initialize
+    phpactor config:set indexer.supported_extensions '["php", "inc", "module"]'
+    phpactor config:set indexer.include_patterns '["/**/*.php", "/**/*.inc", "/**/*.module"]'
+    phpactor config:set symfony.enabled true
+    phpactor index:build --reset
+    phpactor index:build --verbose
+    ```
 
 ## Performing Diff operations
 
