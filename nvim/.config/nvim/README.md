@@ -85,6 +85,27 @@ Refer to the [documentation](https://lazyvim.github.io/installation).
     phpactor index:build --verbose
     ```
 
+    Here is an example of the `.phpactor.json` file:
+
+    ```json
+    {
+      "$schema": "phpactor.schema.json",
+      "symfony.enabled": true,
+      "indexer.supported_extensions": ["php", "inc", "module"],
+      "indexer.include_patterns": [
+        "/**/*.php",
+        "/**/*.inc",
+        "/**/*.module",
+        "web/core/includes/*.inc"
+      ],
+      "indexer.stub_paths": ["~/.composer/vendor/jetbrains/phpstorm-stubs"],
+      "language_server_phpstan.enabled": true,
+      "php_code_sniffer.enabled": true,
+      "prophecy.enabled": true,
+      "worse_reflection.stub_dir": "~/.composer/vendor/jetbrains/phpstorm-stubs"
+    }
+    ```
+
 ## Performing Diff operations
 
 ### Perform a diff between the current file and another branch

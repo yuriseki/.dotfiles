@@ -26,7 +26,7 @@ function ${1:MODULE}_form_alter(&$form, \\Drupal\\Core\\Form\\FormStateInterface
         "@i",
         [[
 /**
- * {@inheriteddoc}
+ * {@inheritdoc}
  */
 ]]
       ),

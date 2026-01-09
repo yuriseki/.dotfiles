@@ -10,4 +10,3 @@ require("utils.load-config-dir").load_config_dir("plugins.config")
 vim.cmd("colorscheme nordfox")
 -- vim.cmd("colorscheme nordfox")
 
-

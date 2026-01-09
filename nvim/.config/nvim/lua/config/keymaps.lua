@@ -49,7 +49,8 @@ vim.keymap.set("i", "<c-s-right>", "<esc>lve", { silent = true })
 vim.keymap.set("v", "<c-s-right>", "e", { silent = true })
 
 -- select all
-vim.keymap.set("n", "<c-a>", "gg<s-v>g", { desc = "select all" })
+vim.keymap.set("n", "<c-a>", "gg<s-v>G", { desc = "select all" })
+vim.keymap.set({"i", "v"}, "<c-a>", "<Esc>gg<s-v>G", { desc = "select all" })
 
 -- other arrows movements
 vim.keymap.set("n", "<m-left>", "<cmd>vertical resize -2<cr>", { desc = "decrease window width" })
@@ -68,14 +69,14 @@ vim.keymap.set("n", "<m-del>", "de", { desc = "delete word" })
 -- copy/paste inside insert mode
 -- vim.keymap.set("v", "y", '"+y<esc>i', { noremap = true, silent = true, desc = "yank" })
 vim.keymap.set("i", "<m-v>", "<c-r>0", opts)
-vim.keymap.set("v", "<m-v>", '"0p', opts)
+vim.keymap.set({"v", "n"}, "<m-v>", '"0p', opts)
 vim.keymap.set({ "i", "v" }, "jk", "<Esc>", { desc = "Esc alternative" })
 
 -- Make deletions and changes not override the unnamed register (clipboard)
-vim.keymap.set("n", "x", '"xx')
-vim.keymap.set("n", "d", '"dd')
-vim.keymap.set("v", "d", '"dd')
-vim.keymap.set("n", "c", '"cc')
+-- vim.keymap.set("n", "x", '"xx')
+-- vim.keymap.set("n", "d", '"dd')
+-- vim.keymap.set("v", "d", '"dd')
+-- vim.keymap.set("n", "c", '"cc')
 
 -- Other text edit navigation
 vim.keymap.set("i", "<S-End>", "<esc>lv$h", { noremap = true, desc = "Select end" })

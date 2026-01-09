@@ -7,6 +7,17 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+_G.check_php_arrow = function()
+  local line = vim.fn.getline(".")
+  local col = vim.fn.col(".") - 1
+  local before = line:sub(1, col)
+  if before:match("%$[a-zA-Z_][a-zA-Z0-9_]*$") then
+    return "->"
+  else
+    return "-"
+  end
+end
+
 -- vim.api.nvim_create_autocmd("LspAttach", {
 --   callback = function(args)
 --     local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -105,5 +116,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.php", "*.inc", "*.module", "*.install" }, -- Add your desired patterns here
   callback = function()
     vim.cmd("LspStart phpactor") -- Or intelephense if switching
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.php", "*.inc", "*.module", "*.install" },
+  callback = function()
+    vim.api.nvim_set_keymap("i", "-", "v:lua.check_php_arrow()", { expr = true })
   end,
 })

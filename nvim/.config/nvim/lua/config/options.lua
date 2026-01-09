@@ -2,6 +2,10 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+-- Case insensitive unless there is a Capital case letter
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
 vim.opt.relativenumber = false
 
 -- Disable autoformat on save
@@ -53,6 +57,5 @@ vim.opt.termguicolors = true
 vim.opt.spell = true
 vim.opt.spelllang = "en_us,pt_br"
 vim.opt.spelloptions:append("camel")
-
 
 vim.g.lazyvim_php_lsp = "phpactor"
