@@ -1,0 +1,9 @@
+**/.git/
+**/secrets.*
+**/.secrets
+**/fish_variables
+*.log
+tmp
+*.cache
+*.log
+

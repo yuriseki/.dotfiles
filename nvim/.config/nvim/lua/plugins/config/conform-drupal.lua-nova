@@ -1,0 +1,286 @@
+-- Path to phpcbf
+local phpcbf = "/home/yuri/.config/composer/vendor/bin/phpcbf"
+
+-- Detect root for better standard resolution
+local function get_root()
+  local markers = {
+    "composer.json",
+    "phpcs.xml",
+    "phpcs.xml.dist",
+    ".phpcs.xml",
+    ".phpcs.xml.dist",
+  }
+  for _, fname in ipairs(markers) do
+    local f = vim.fn.findfile(fname, ".;")
+    if f ~= "" then
+      return vim.fn.fnamemodify(f, ":h")
+    end
+  end
+  return vim.loop.cwd()
+end
+
+-----------------------------------------------------------------------
+-- FULL FILE FORMATTER
+-----------------------------------------------------------------------
+vim.api.nvim_create_user_command("DrupalFormat", function()
+  local file = vim.api.nvim_buf_get_name(0)
+  if file == "" then
+    print("No file to format")
+    return
+  end
+
+  local tmp = vim.fn.tempname() .. ".php"
+  vim.fn.writefile(vim.fn.readfile(file), tmp)
+
+  local cmd = {
+    phpcbf,
+    "--standard=Drupal",
+    tmp,
+  }
+
+  local stdout = {}
+  local stderr = {}
+
+  vim.fn.jobstart(cmd, {
+    cwd = get_root(),
+    stdout_buffered = true,
+    stderr_buffered = true,
+
+    on_stdout = function(_, data)
+      if data then
+        vim.list_extend(stdout, data)
+      end
+    end,
+
+    on_stderr = function(_, data)
+      if data then
+        vim.list_extend(stderr, data)
+      end
+    end,
+
+    on_exit = function()
+      local fixed = vim.fn.readfile(tmp)
+      if #fixed > 0 then
+        vim.api.nvim_buf_set_lines(0, 0, -1, false, fixed)
+        print("Drupal format applied ✓")
+      else
+        print("No output from formatter")
+      end
+      vim.fn.delete(tmp)
+    end,
+  })
+end, {})
+-----------------------------------------------------------------------
+-- VISUAL RANGE FORMATTER
+-----------------------------------------------------------------------
+
+-- vim.api.nvim_create_user_command("DrupalFormatRange", function(opts)
+--   local phpcbf = "/home/yuri/.config/composer/vendor/bin/phpcbf"
+--   local start = opts.line1 - 1
+--   local finish = opts.line2
+--
+--   -- Get selected lines
+--   local original = vim.api.nvim_buf_get_lines(0, start, finish, false)
+--
+--   -- Create temp file
+--   local tmp = vim.fn.tempname() .. ".php"
+--
+--   -- VERY IMPORTANT: Prepend "<?php" so phpcbf recognizes PHP syntax
+--   local file_contents = vim.list_extend({ "<?php" }, original)
+--
+--   vim.fn.writefile(file_contents, tmp)
+--
+--   local cmd = {
+--     phpcbf,
+--     "--standard=Drupal",
+--     tmp,
+--   }
+--
+--   vim.fn.jobstart(cmd, {
+--     cwd = get_root(),
+--     stdout_buffered = true,
+--     stderr_buffered = true,
+--
+--     on_exit = function()
+--       local fixed = vim.fn.readfile(tmp)
+--
+--       if #fixed > 1 then
+--         -- Remove first line ("<?php")
+--         table.remove(fixed, 1)
+--
+--         -- Write formatted content back into buffer
+--         vim.api.nvim_buf_set_lines(0, start, finish, false, fixed)
+--         print("Drupal range format applied ✓")
+--       else
+--         print("Range formatter produced no output")
+--       end
+--
+--       vim.fn.delete(tmp)
+--     end,
+--   })
+-- end, { range = true })
+
+-- local null_ls = require("null-ls")
+--
+-- null_ls.setup({
+--   sources = {
+--     -- Use phpcbf for automatic formatting with the Drupal standard
+--     formatting.php_cs_fixer.with({
+--       -- Specify the "Drupal,DrupalPractice" standards
+--       extra_args = { "--rules=@PSR12" },
+--       -- Point to the local vendor bin path if not installed globally
+--       -- command = "./vendor/bin/phpcbf",
+--     }),
+--
+--     -- Use phpcs for diagnostics (linting/error highlighting)
+--     diagnostics.phpcs.with({
+--       -- Specify the "Drupal,DrupalPractice" standards
+--       extra_args = { "--standard=Drupal,DrupalPractice" },
+--       -- Point to the local vendor bin path if not installed globally
+--       -- command = "./vendor/bin/phpcs",
+--     }),
+--   },
+-- })
+--
+require("conform").setup({
+  format_on_save = {
+    lsp_format = "never",
+    lsp_fallback = false,
+  },
+
+  debug = true,
+  log_level = vim.log.levels.DEBUG,
+  formatters_by_ft = {
+    php = {
+      "php_cs_fixer_psr12",
+      -- "phpcbf_drupal_range",
+      lsp_format = "never",
+      stop_after_first = true,
+    },
+  },
+  formatters = {
+    prettier = {
+      command = "prettier",
+      args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+    },
+    stylua = {
+      command = "stylua",
+      args = { "-" },
+    },
+    isort = {
+      command = "isort",
+      args = { "-" },
+    },
+    black = {
+      command = "black",
+      args = { "-" },
+    },
+
+    php_cs_fixer_psr12 = {
+      command = "php-cs-fixer",
+      args = {
+        "fix",
+        "--quiet",
+        "--rules=@PSR12",
+        "--using-cache=no",
+        "$FILENAME",
+      },
+      stdin = false,
+      cwd = require("conform.util").root_file({
+        "composer.json",
+        "php-cs-fixer.php",
+        ".php-cs-fixer.php",
+      }),
+    },
+
+    php_cs_fixer = {
+      command = "php-cs-fixer",
+      stdin = true,
+
+      args = function(ctx)
+        return {
+          "fix",
+          "--quiet",
+          "--rules=@PSR12",
+          "--using-cache=no",
+          "--stdin-filepath",
+          ctx.filename,
+          "--", -- Explicit separator
+        }
+      end,
+
+      -- php-cs-fixer ALWAYS writes to stdout in STDIN mode
+      -- so we take its output and reinsert into buffer
+    },
+
+    -----------------------------------------------------------------
+    -- 1. Full-file phpcbf
+    -----------------------------------------------------------------
+
+    phpcbf_drupal = {
+      command = "/home/yuri/.config/composer/vendor/bin/phpcbf",
+      stdin = false,
+
+      args = {
+        "--standard=Drupal",
+        "--standard=/home/yuri/.config/composer/vendor/drupal/coder/coder_sniffer/Drupal",
+        -- "--", -- separator
+        -- "--stdin-path",
+        "$FILENAME",
+        -- "-",
+      },
+      -- Tell Conform that formatter modifies the file on disk
+      -- and it should read it back and apply to buffer
+      exit_codes = { 0, 1 }, -- Accept exit code 1 as success
+
+      -- cwd = require("conform.util").root_file({
+      --   "composer.json",
+      --   "phpcs.xml",
+      --   "phpcs.xml.dist",
+      --   ".phpcs.xml",
+      --   ".phpcs.xml.dist",
+      -- }),
+    },
+
+    -----------------------------------------------------------------
+    -- 2. Visual-selection phpcbf via temporary file
+    -----------------------------------------------------------------
+    phpcbf_drupal_range = {
+      -- Only runs when formatting a visual range
+      range_formatting = true,
+
+      format = function(_, ctx)
+        local buf = ctx.bufnr
+        local start = ctx.range.start
+        local finish = ctx.range["end"]
+
+        -- Extract selected text
+        local lines = vim.api.nvim_buf_get_lines(buf, start[1], finish[1] + 1, false)
+        local text = table.concat(lines, "\n")
+
+        -- Create temporary file
+        local tmp = vim.fn.tempname() .. ".php"
+        vim.fn.writefile(vim.split(text, "\n"), tmp)
+
+        -- Run phpcbf on temp file
+        local cmd = {
+          "/home/yuri/.config/composer/vendor/bin/phpcbf",
+          "--standard=Drupal",
+          "--encoding=utf-8",
+          tmp,
+        }
+        vim.fn.system(cmd)
+
+        -- Read the processed file
+        local fixed = vim.fn.readfile(tmp)
+
+        -- Replace buffer range
+        return fixed
+      end,
+    },
+    ["php-cs-fixer"] = {
+      command = "php-cs-fixer",
+      args = { "fix", "-" },
+    },
+  },
+})

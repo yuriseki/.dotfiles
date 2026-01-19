@@ -1,0 +1,113 @@
+#!/bin/bash
+
+# fif - Find In Files
+# Interactive search inside files using fzf
+# Usage: fif [options] [search_term] [directory]
+# Options:
+#   -f PATTERN  File name pattern (e.g., "*.py")
+
+set -euo pipefail
+
+# Parse options
+FILE_PATTERN=""
+while getopts "f:" opt; do
+  case $opt in
+    f) FILE_PATTERN="$OPTARG" ;;
+    *) echo "Usage: fif [-f PATTERN] [search_term] [directory]"; exit 1 ;;
+  esac
+done
+shift $((OPTIND-1))
+
+# Check if fzf is installed
+if ! command -v fzf &> /dev/null; then
+    echo "Error: fzf is not installed. Please install fzf first."
+    echo "  Ubuntu/Debian: sudo apt install fzf"
+    echo "  macOS: brew install fzf"
+    echo "  Or visit: https://github.com/junegunn/fzf"
+    exit 1
+fi
+
+# Check if ripgrep is available (preferred), otherwise use grep
+if command -v rg &> /dev/null; then
+    SEARCH_CMD="rg"
+    SEARCH_ARGS="--line-number --no-heading --color=never --smart-case"
+else
+    SEARCH_CMD="grep"
+    SEARCH_ARGS="-rn --color=never"
+fi
+
+# Parse arguments
+if [ $# -eq 0 ]; then
+    # No arguments: interactive search in current directory
+    SEARCH_DIR="."
+    SEARCH_TERM=""
+    INTERACTIVE=true
+elif [ $# -eq 1 ]; then
+    # One argument: could be search term or directory
+    if [ -d "$1" ]; then
+        # It's a directory: interactive search in that directory
+        SEARCH_DIR="$1"
+        SEARCH_TERM=""
+        INTERACTIVE=true
+    else
+        # It's a search term: search in current directory
+        SEARCH_DIR="."
+        SEARCH_TERM="$1"
+        INTERACTIVE=false
+    fi
+else
+    # Two or more arguments: directory and search term
+    SEARCH_DIR="$1"
+    SEARCH_TERM="$2"
+    INTERACTIVE=false
+fi
+
+if [ "$INTERACTIVE" = true ]; then
+    echo "Interactive file search in: $SEARCH_DIR"
+    echo "Start typing to search within files..."
+    echo ""
+
+    # Interactive search with live filtering
+    cd "$SEARCH_DIR" && find . -type f \
+        ${FILE_PATTERN:+-name "$FILE_PATTERN"} \
+        -not -path '*/.git/*' \
+        -not -path '*/node_modules/*' \
+        -not -path '*/.next/*' \
+        -not -path '*/dist/*' \
+        -not -path '*/build/*' \
+        -not -path '*/__pycache__/*' \
+        -not -path '*/.DS_Store' \
+        -not -path '*/.vscode/*' \
+        -not -path '*/.idea/*' \
+        -not -path '*/vendor/*' \
+        -print0 2>/dev/null | \
+        xargs -0 $SEARCH_CMD $SEARCH_ARGS . 2>/dev/null | \
+        fzf --delimiter ':' \
+            --preview 'line={2}; file=$(pwd)/{1}; if [ "$line" -gt 10 ]; then start=$((line-5)); else start=1; fi; end=$((line+10)); bat --style=numbers --color=always --line-range $start:$end --highlight-line {2} "$file" 2>/dev/null || sed -n "${start},${end}p" "$file" | cat -n' \
+            --preview-window 'right:60%' \
+            --bind 'enter:execute(file=$(pwd)/{1}; exec nvim +{2} "$file")'
+
+else
+    echo "Searching for '$SEARCH_TERM' in: $SEARCH_DIR"
+    echo ""
+
+    # Direct search
+    cd "$SEARCH_DIR" && find . -type f \
+        ${FILE_PATTERN:+-name "$FILE_PATTERN"} \
+        -not -path '*/.git/*' \
+        -not -path '*/node_modules/*' \
+        -not -path '*/.next/*' \
+        -not -path '*/dist/*' \
+        -not -path '*/build/*' \
+        -not -path '*/__pycache__/*' \
+        -not -path '*/.DS_Store' \
+        -not -path '*/.vscode/*' \
+        -not -path '*/.idea/*' \
+        -not -path '*/vendor/*' \
+        -print0 2>/dev/null | \
+        xargs -0 $SEARCH_CMD $SEARCH_ARGS "$SEARCH_TERM" 2>/dev/null | \
+        fzf --delimiter ':' \
+            --preview 'line={2}; file=$(pwd)/{1}; if [ "$line" -gt 10 ]; then start=$((line-5)); else start=1; fi; end=$((line+10)); bat --style=numbers --color=always --line-range $start:$end --highlight-line {2} "$file" 2>/dev/null || sed -n "${start},${end}p" "$file" | cat -n' \
+            --preview-window 'right:60%' \
+            --bind 'enter:execute(file=$(pwd)/{1}; exec nvim +{2} "$file")'
+fi
