@@ -1,0 +1,29 @@
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig.configs")
+
+-- Check if the config already exists to prevent errors
+if not configs.textls then
+  configs.textls = {
+    default_config = {
+      cmd = {
+        "/bin/bash",
+        "-c",
+        "cd /home/yuri/ssd2/project-files/Yuri/TextLS && source .venv/bin/activate && poetry run textls",
+        -- "cd /home/yuri/ssd2/project-files/Yuri/TextLS && source .venv/bin/activate && DEBUG_TEXTLS=1 python -m textls.main",
+      },      filetypes = { "md", "markdown", "txt" },
+      root_dir = lspconfig.util.root_pattern(".git"), -- Marks the project root
+      name = "textls",
+      single_file_support = true,
+    },
+  }
+end
+
+require("lspconfig").textls.setup({
+  -- Add any specific settings or on_attach function here
+  on_attach = function(client, bufnr)
+    -- Keymaps and other buffer-specific settings can go here
+    -- Example: vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
+  end,
+  capabilities = require("blink.cmp").get_lsp_capabilities(), -- If using blink.cmp
+})
+

@@ -125,7 +125,8 @@ return {
     },
 
     fuzzy = {
-      implementation = "prefer_rust_with_warning",
+      -- implementation = "prefer_rust_with_warning",
+      implementation = "rust",
       -- Enable prebuilt binaries for better performance
     },
   },

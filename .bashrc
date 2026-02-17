@@ -131,5 +131,12 @@ export VISUAL=gnvim
 
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/yuri/go/bin
+
+alias k='kubectl'
+source <(kubectl completion bash)
+complete -o default -F __start_kubectl k
+
 # Start fish
-fish
+# fish
