@@ -31,8 +31,13 @@ if status is-interactive
     abbr -a -- k kubectl
 
     # Aliases
+    if command -v lsd >/dev/null 
+      function ls
+        lsd $argv
+      end
+    end
     function ll --wraps='ls'
-        ls -alF $argv
+        ls -alh $argv
     end
     function la --wraps='ls'
         ls -A $argv
@@ -46,10 +51,9 @@ if status is-interactive
     function fd
         fdfind
     end
-    function bat
-        batcat
+    function gen-passwd
+      cat /dev/urandom | tr -dc 'a-zA-Z0-9!@#%^&*()' | fold -w 16 | head -n 1
     end
-
 
     # Set the default text editor
     set -gx EDITOR nvim
